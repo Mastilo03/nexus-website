@@ -301,7 +301,7 @@ export default function Contact() {
           )}
           {hasROI && (
             <div className="roi-context">
-              <small>YOUR CALCULATOR ASSUMPTIONS</small>
+              <small>Your calculator numbers</small>
               {roi.leads} leads/month · €{roi.value} customer value ·{" "}
               {roi.conversion}% conversion · {roi.missed}% missed leads ·{" "}
               {roi.recovery}% recovery · {roi.hours} admin hours/week ·{" "}

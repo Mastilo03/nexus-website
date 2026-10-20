@@ -423,6 +423,11 @@ function AnimatedNumber({
 }
 export function ROICalculator() {
   const [input, setInput] = useState({ ...defaultInputs });
+  const [draft, setDraft] = useState<Partial<Record<keyof typeof input, string>>>(
+    {},
+  );
+  const inRange = (key: keyof typeof input, v: number) =>
+    Number.isFinite(v) && v >= limits[key][0] && v <= limits[key][1];
   const result = calculateROI(input);
   const query = new URLSearchParams(
     Object.entries(input).map(([k, v]) => [k, String(v)]),
@@ -438,7 +443,10 @@ export function ROICalculator() {
             <button
               key={name}
               aria-pressed={activePreset === i}
-              onClick={() => setInput({ ...p })}
+              onClick={() => {
+                setDraft({});
+                setInput({ ...p });
+              }}
             >
               {name}
             </button>
@@ -454,19 +462,28 @@ export function ROICalculator() {
                 min={limits[key][0]}
                 max={limits[key][1]}
                 step={step}
-                value={input[key]}
-                onChange={(e) =>
-                  setInput({ ...input, [key]: Number(e.target.value) })
+                value={draft[key] ?? input[key]}
+                aria-invalid={
+                  draft[key] !== undefined &&
+                  !inRange(key, Number(draft[key]))
                 }
-                onBlur={() =>
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  setDraft({ ...draft, [key]: raw });
+                  if (raw !== "" && inRange(key, Number(raw)))
+                    setInput({ ...input, [key]: Number(raw) });
+                }}
+                onBlur={() => {
+                  const raw = draft[key];
+                  setDraft({ ...draft, [key]: undefined });
+                  if (raw === undefined || raw === "") return;
+                  const n = Number(raw);
+                  if (!Number.isFinite(n)) return;
                   setInput({
                     ...input,
-                    [key]: Math.min(
-                      limits[key][1],
-                      Math.max(limits[key][0], input[key]),
-                    ),
-                  })
-                }
+                    [key]: Math.min(limits[key][1], Math.max(limits[key][0], n)),
+                  });
+                }}
               />
               <span>{unit}</span>
             </div>
@@ -482,9 +499,10 @@ export function ROICalculator() {
                   "--range": `${Math.min(100, Math.max(0, ((input[key] - limits[key][0]) / (limits[key][1] - limits[key][0])) * 100))}%`,
                 } as React.CSSProperties
               }
-              onChange={(e) =>
-                setInput({ ...input, [key]: Number(e.target.value) })
-              }
+              onChange={(e) => {
+                setDraft({ ...draft, [key]: undefined });
+                setInput({ ...input, [key]: Number(e.target.value) });
+              }}
             />
           </div>
         ))}

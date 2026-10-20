@@ -1,66 +1,42 @@
-# NEXUS — Automation & Digital Experiences
+# NEXUS website
 
-A complete React + TypeScript/Vite website with ten routes, two distinct service identities, six concept projects, scripted assistant demos, a workflow simulator, a website comparison and an editable opportunity calculator.
+Marketing site for NEXUS: websites and automation for service businesses. React 19, TypeScript, Vite and React Router, pre-rendered to static HTML.
 
 ## Run locally
 
-Requires Node.js 22.12+ (Node 24 recommended).
+Requires Node.js 20.19+ or 22.12+.
 
 ```sh
 npm install
-npm run dev
+npm run dev      # http://127.0.0.1:5173
 npm test
-npm run build
+npm run build    # typecheck, client build, server build, pre-render
 npm run preview
 ```
 
-The running development preview is at `http://127.0.0.1:5173`. Vite updates it as source files change.
-
-## Service identities
-
-- `/services/web-design`: violet studio identity, editorial device composition, before/after comparison, concept work and design process.
-- `/services/automation`: emerald operations identity, customer-journey diagram, interactive workflow, scripted assistant and opportunity calculator.
-- The homepage exposes both service paths side by side.
-
 ## Configuration
 
-Copy `.env.example` to `.env.local`, supply real values and restart/rebuild. `VITE_` variables are public build-time configuration; never put secret credentials in them.
+Copy `.env.example` to `.env.local` and fill in what you have. `VITE_` variables end up in the public bundle, so never put secrets in them.
 
-| Variable | Purpose |
+| Variable | What it does |
 | --- | --- |
-| `VITE_SITE_URL` | Canonical deployed origin; also set in the build environment for generated metadata. |
-| `VITE_CONTACT_ENDPOINT` | HTTPS JSON endpoint owned by the business. Must acknowledge durable receipt with `{ "received": true, "id": "receipt-id" }`. |
-| `VITE_BOOKING_URL` | Verified Cal.com/Calendly booking URL. |
-| `VITE_CONTACT_EMAIL` | Verified business inbox for an email link. |
+| `VITE_SITE_URL` | The live origin, e.g. `https://nexus.example`. Needed for canonical URLs, `og:image` and `sitemap.xml`; the build skips those and warns when it is missing. |
+| `VITE_CONTACT_ENDPOINT` | HTTPS endpoint that receives the contact form as JSON and answers `{ "received": true, "id": "..." }` once it has stored it. Without it, the form downloads the brief as a text file instead. |
+| `VITE_BOOKING_URL` | Cal.com or Calendly link. Shows a "Choose a time" button on the contact page. |
+| `VITE_CONTACT_EMAIL` | Inbox shown on the contact page. |
 
-Without an endpoint, the form validates and downloads a local project brief. It explicitly says the brief was not submitted. Without a booking URL, the contact page offers brief preparation instead of a broken calendar embed. No live inquiry or calendar integration is claimed.
+## How it is put together
 
-The endpoint must implement server-side validation, allowed origins, request limits, abuse protection and durable storage/delivery. Never treat browser validation or a successful HTTP response alone as receipt. The UI additionally requires the explicit receipt contract. A failed/timeout response preserves form values and offers a local copy.
+- `src/App.tsx` is the app shell and homepage; `src/pages.tsx` holds the other routes; `src/components.tsx` the shared demos (assistant, workflow, ROI calculator, industries, FAQ).
+- `src/seo.ts` is the single source for page titles and descriptions, used in the browser and at build time.
+- `npm run build` renders every route, including each concept at `/work/<slug>`, with `src/entry-server.tsx` and `scripts/prerender.mjs`. Search engines get real HTML; the browser hydrates it. A `404.html` is generated for static hosts.
+- `src/style.css` is the whole design system: graphite surfaces, one lime accent, self-hosted Geist. No UI text is smaller than 12px.
+- The Three.js hero object loads lazily on desktop only, and is skipped for reduced motion or missing WebGL.
+- Demos are scripted and use sample data. Nothing is sent, booked or saved, and each demo says so once.
+- There are no analytics or cookies. After a confirmed inquiry the page dispatches a `nexus:conversion` event that a consent-aware analytics script can listen for.
 
-## Data & behavior
+## Before going live
 
-- Scripted assistants use sample data, never a paid AI API.
-- Workflow playback does not send messages, create appointments or update CRM systems.
-- All six portfolio projects are clearly labeled concepts.
-- Calculator assumptions travel to contact via non-personal query parameters and can be excluded from the brief.
-- Revenue opportunity is not profit or a guarantee. Calculations follow the supplied brief exactly.
-- There are no analytics trackers. A `nexus:conversion` browser event is dispatched only after a confirmed inquiry receipt; a consent-aware analytics integration can subscribe later.
-- Draft form values stay in memory, not local storage.
-
-## Implementation
-
-- React Router handles navigation; the production build emits a static HTML entry point with unique metadata for every route.
-- The Three.js scene is lazy loaded on supported desktop viewports. Mobile, reduced-motion and unavailable-WebGL views use a lightweight static composition.
-- Motion honors `prefers-reduced-motion`; controls are keyboard operable with visible focus states.
-- Google Fonts currently provides Space Grotesk and Inter. Self-host licensed font files if removing third-party font requests is required.
-- Concept artwork is original CSS geometry; there are no stock-image dependencies or invented customer endorsements.
-
-## Validation
-
-`npm test` covers the calculator’s baseline, zero cases, upper bounds and invalid values. `npm run build` performs TypeScript checks, production bundling and ten-route metadata generation. Browser checks cover service navigation, comparison toggling, a full scripted conversation, workflow playback, portfolio filters and required-form validation.
-
-## Before accepting public inquiries
-
-Configure and test the real inquiry/booking services. Complete the operator's business identity, privacy contact, provider and retention details in the website notices. Confirm the actual engagement terms. The current private preview intentionally does not fabricate those details.
-
-No Lighthouse scores or live delivery results have been claimed.
+- Set `VITE_SITE_URL`, and the contact endpoint or booking link, so inquiries can actually arrive.
+- Fill in the business identity, privacy contact and retention details on the privacy page.
+- The six portfolio pieces are concepts. Replace or supplement them with real work as it exists.

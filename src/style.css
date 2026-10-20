@@ -1208,6 +1208,10 @@ html {
   font-variant-numeric: tabular-nums;
   color: var(--text);
 }
+.range-number input[aria-invalid="true"],
+.range-number input[aria-invalid="true"]:focus {
+  border-color: var(--danger);
+}
 .range-number input:focus {
   border-color: var(--accent-line);
   outline: none;
