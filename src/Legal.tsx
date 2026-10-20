@@ -1,19 +1,15 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { Label } from "./components";
 export default function Legal({ privacy = false }: { privacy?: boolean }) {
   const connected = Boolean(import.meta.env.VITE_CONTACT_ENDPOINT);
   return (
     <>
       <section className="wrap page-hero">
-        <Label>THE DETAILS MATTER</Label>
-        <h1>
-          {privacy ? "Privacy & your information." : "A clear understanding."}
-        </h1>
+        <h1>{privacy ? "Privacy" : "Terms of use"}</h1>
         <p>
           {privacy
-            ? "How this version of the NEXUS website handles information."
-            : "Using the NEXUS website, its concepts and its interactive demonstrations."}
+            ? "What this website does with the information you give it."
+            : "The rules for using this website, its concepts and its demos."}
         </p>
       </section>
       <article className="wrap section legal">
@@ -48,9 +44,9 @@ export default function Legal({ privacy = false }: { privacy?: boolean }) {
             <p>
               This application does not set advertising cookies or install
               analytics tracking. Website hosting may process technical request
-              information to deliver the site. Fonts are requested from Google
-              Fonts, which receives technical information such as your IP
-              address when those files are loaded.
+              information to deliver the site. Fonts are served from this
+              website, so no third-party font service receives your
+              information.
             </p>
             <p>
               If a booking link is configured and you open it, the calendar

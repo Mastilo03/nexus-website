@@ -11,7 +11,7 @@ export const industryDetails = [
     challenge:
       "Missed inquiries and repetitive scheduling take attention away from your practice.",
     automation:
-      "Appointment requests, reminders and front-desk FAQs—with staff handling care questions.",
+      "Appointment requests, reminders and front-desk FAQs, with staff handling care questions.",
     web: "A reassuring, accessible website with clear services and a simple appointment journey.",
     journey:
       "Service inquiry → preferences collected → staff-reviewed booking request",
@@ -58,6 +58,7 @@ export const industryDetails = [
 export const projects = [
   {
     name: "AURA",
+    slug: "aura",
     title: "A quieter kind of escape.",
     type: "3D Websites",
     industry: "Boutique hospitality",
@@ -68,6 +69,7 @@ export const projects = [
   },
   {
     name: "FORME",
+    slug: "forme",
     title: "Space to see differently.",
     type: "3D Websites",
     industry: "Premium real estate",
@@ -78,6 +80,7 @@ export const projects = [
   },
   {
     name: "LUMEN",
+    slug: "lumen",
     title: "A more considered welcome.",
     type: "AI Automation",
     industry: "Dental & medical",
@@ -88,6 +91,7 @@ export const projects = [
   },
   {
     name: "APEX",
+    slug: "apex",
     title: "Every detail. Elevated.",
     type: "3D Websites",
     industry: "Automotive care",
@@ -98,6 +102,7 @@ export const projects = [
   },
   {
     name: "FIELD",
+    slug: "field",
     title: "From missed call to next step.",
     type: "AI Automation",
     industry: "Home services",
@@ -108,6 +113,7 @@ export const projects = [
   },
   {
     name: "STILL",
+    slug: "still",
     title: "Make room for yourself.",
     type: "Combined Solutions",
     industry: "Beauty & wellness",
