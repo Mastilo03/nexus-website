@@ -19,7 +19,13 @@ function Pulse() {
 function PerformanceGuard({onSlow}: {onSlow: () => void}) {
   const sample = useRef({time: 0, frames: 0, finished: false});
   useFrame(({clock}, delta) => {
-    if (sample.current.finished || clock.elapsedTime < 2 || document.hidden) return;
+    if (
+      sample.current.finished ||
+      clock.elapsedTime < 2 ||
+      document.hidden ||
+      !document.hasFocus()
+    )
+      return;
     sample.current.time += delta;
     sample.current.frames++;
     if (sample.current.time >= 4) {
@@ -139,14 +145,14 @@ export default function Scene({onSlow}: {onSlow: () => void}) {
   return (
     <Canvas
       dpr={[1, 1.4]}
-      camera={{ position: [0, 0, 5], fov: 40 }}
+      camera={{ position: [0, 0, 6.2], fov: 40 }}
       gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
       aria-hidden="true"
     >
       <ambientLight intensity={1.4} />
       <directionalLight position={[2, 4, 5]} intensity={3} color="#f2f5e8" />
       <pointLight position={[-3, -2, 2]} intensity={6} color="#c8f169" />
-      <group scale={0.9}>
+      <group scale={0.95}>
         <Core />
       </group>
       <PerformanceGuard onSlow={onSlow}/>

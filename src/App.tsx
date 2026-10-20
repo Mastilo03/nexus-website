@@ -221,6 +221,30 @@ const heroEvents = [
     detail: "Ready for your team in the morning",
   },
 ];
+function HeroFeed() {
+  return (
+    <figure className="hero-feed">
+      <figcaption>
+        <span>After hours, handled</span>
+        <small>Sample</small>
+      </figcaption>
+      <ol>
+        {heroEvents.map(({ icon: Icon, time, title, detail }, i) => (
+          <li key={title} style={{ "--i": i } as React.CSSProperties}>
+            <span className="feed-icon" aria-hidden="true">
+              <Icon size={16} />
+            </span>
+            <div>
+              <b>{title}</b>
+              <small>{detail}</small>
+            </div>
+            <time>{time}</time>
+          </li>
+        ))}
+      </ol>
+    </figure>
+  );
+}
 function HeroVisual() {
   const reduced = useReducedMotion();
   const [ready, setReady] = useState(false);
@@ -246,34 +270,23 @@ function HeroVisual() {
   return (
     <div className="hero-visual">
       <div className="scene-container" aria-hidden="true">
-        {ready && (
+        {ready ? (
           <SceneBoundary>
             <Suspense fallback={null}>
               <Scene onSlow={() => setReady(false)} />
             </Suspense>
           </SceneBoundary>
+        ) : (
+          <div className="scene-fallback">
+            <svg viewBox="0 0 36 36" fill="none">
+              <path
+                d="M6 29V7h6l12 22h6V7h-6v15L12 7H6v22Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
         )}
       </div>
-      <figure className="hero-feed">
-        <figcaption>
-          <span>After hours, handled</span>
-          <small>Sample</small>
-        </figcaption>
-        <ol>
-          {heroEvents.map(({ icon: Icon, time, title, detail }, i) => (
-            <li key={title} style={{ "--i": i } as React.CSSProperties}>
-              <span className="feed-icon" aria-hidden="true">
-                <Icon size={16} />
-              </span>
-              <div>
-                <b>{title}</b>
-                <small>{detail}</small>
-              </div>
-              <time>{time}</time>
-            </li>
-          ))}
-        </ol>
-      </figure>
     </div>
   );
 }
@@ -292,6 +305,7 @@ function Hero() {
             Try the demo
           </a>
         </div>
+        <HeroFeed />
       </div>
       <HeroVisual />
     </section>

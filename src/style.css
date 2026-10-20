@@ -472,8 +472,7 @@ html {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   align-items: center;
   gap: clamp(32px, 5vw, 72px);
-  min-height: min(760px, calc(100dvh - 64px));
-  padding-block: clamp(48px, 7vw, 96px);
+  padding-block: clamp(48px, 6vw, 80px);
 }
 .hero h1 {
   font-size: var(--fs-h1);
@@ -496,14 +495,29 @@ html {
   margin-top: 36px;
 }
 .hero-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  align-self: stretch;
+  min-height: 560px;
 }
 .scene-container {
-  position: relative;
-  width: 100%;
-  height: 260px;
+  position: absolute;
+  inset: -24px -40px;
+}
+.scene-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.scene-fallback svg {
+  width: 168px;
+  height: 168px;
+  padding: 40px;
+  border-radius: 36px;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
 }
 .scene-container::before {
   content: "";
@@ -519,7 +533,8 @@ html {
 .hero-feed {
   position: relative;
   z-index: 1;
-  width: min(100%, 440px);
+  width: min(100%, 460px);
+  margin-top: 48px;
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--r-lg);
@@ -2690,16 +2705,13 @@ input[type="checkbox"] {
     padding-block: 48px 64px;
   }
   .hero-visual {
-    min-height: 0;
-  }
-  .scene-container {
     display: none;
   }
   .chat-messages {
     min-height: 200px;
   }
   .hero-feed {
-    margin: 0;
+    margin: 32px 0 0;
     width: 100%;
   }
   .roi-results,
