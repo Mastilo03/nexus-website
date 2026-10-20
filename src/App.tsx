@@ -36,6 +36,8 @@ import "./style.css";
 import { documentTitle, notFoundMeta, routeMeta, siteOrigin } from "./seo";
 const Scene = lazy(() => import("./Scene"));
 const Pages = lazy(() => import("./pages"));
+const Forme = lazy(() => import("./concepts/forme/Forme"));
+const Apex = lazy(() => import("./concepts/apex/Apex"));
 function RouteEffects() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -435,6 +437,9 @@ function Home() {
   );
 }
 export function App() {
+  const { pathname } = useLocation();
+  if (pathname === '/work/forme') return <><RouteEffects/><Suspense fallback={<div className="page-loading"/>}><Forme/></Suspense></>;
+  if (pathname === '/work/apex') return <><RouteEffects/><Suspense fallback={<div className="page-loading"/>}><Apex/></Suspense></>;
   return (
     <>
       <RouteEffects />
