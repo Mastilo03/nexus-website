@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { Label } from "./components";
 export default function Legal({ privacy = false }: { privacy?: boolean }) {
   const connected = Boolean(import.meta.env.VITE_CONTACT_ENDPOINT);
   return (
     <>
       <section className="wrap page-hero">
-        <Label>THE DETAILS MATTER</Label>
         <h1>
           {privacy ? "Privacy & your information." : "A clear understanding."}
         </h1>

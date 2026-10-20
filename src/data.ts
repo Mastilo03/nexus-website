@@ -11,7 +11,7 @@ export const industryDetails = [
     challenge:
       "Missed inquiries and repetitive scheduling take attention away from your practice.",
     automation:
-      "Appointment requests, reminders and front-desk FAQs—with staff handling care questions.",
+      "Appointment requests, reminders and front-desk FAQs, with staff handling care questions.",
     web: "A reassuring, accessible website with clear services and a simple appointment journey.",
     journey:
       "Service inquiry → preferences collected → staff-reviewed booking request",

@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowUpRight, CalendarDays, Download, Send } from "lucide-react";
-import { Label } from "./components";
 import { industries } from "./data";
 import { defaultInputs, limits } from "./roi.mjs";
 export const contactSchema = z.object({
@@ -180,7 +179,6 @@ export default function Contact() {
   return (
     <>
       <section className="wrap page-hero">
-        <Label>LET’S BUILD WHAT’S NEXT</Label>
         <h1>
           Your next stage of growth
           <br />
@@ -374,7 +372,6 @@ export default function Contact() {
           )}
         </form>
         <aside className="contact-aside">
-          <Label>A USEFUL FIRST CONVERSATION</Label>
           <h3>
             Big ambition.
             <br />A simple first step.

@@ -1,18 +1,29 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
   ArrowRight,
   Play,
-  RotateCcw,
+  Square,
   Check,
-  Send,
-  Sparkles,
+  RotateCcw,
   ChevronDown,
 } from "lucide-react";
 import { industries, industryDetails, workflow, faqs } from "./data";
 import { calculateROI, defaultInputs, limits } from "./roi.mjs";
+export function useReducedMotion() {
+  const query = "(prefers-reduced-motion: reduce)";
+  const [reduced, setReduced] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const update = () => setReduced(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  return reduced;
+}
 export function Button({
   children,
   to = "/contact",
@@ -30,16 +41,8 @@ export function Button({
       to={to}
     >
       {children}
-      <ArrowUpRight size={17} />
+      <ArrowRight size={16} aria-hidden="true" />
     </Link>
-  );
-}
-export function Label({ children }: { children: ReactNode }) {
-  return (
-    <div className="eyebrow">
-      <span />
-      {children}
-    </div>
   );
 }
 export function Reveal({
@@ -49,49 +52,33 @@ export function Reveal({
   children: ReactNode;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
-  return (
-    <motion.div
-      className={className}
-      initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -30px 0px" }}
-      transition={{ duration: 0.55 }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 export function SectionHead({
-  label,
   title,
   text,
 }: {
-  label: string;
   title: string;
   text?: string;
 }) {
   return (
-    <Reveal className="section-head">
-      <Label>{label}</Label>
+    <div className="section-head">
       <h2>{title}</h2>
       {text && <p>{text}</p>}
-    </Reveal>
+    </div>
   );
 }
 export function CTA() {
   return (
     <section className="wrap cta">
       <div>
-        <Label>THE NEXT CHAPTER</Label>
-        <h2>
-          Good ideas deserve
-          <br />
-          an <span className="accent">unfair advantage.</span>
-        </h2>
-        <p>Let's turn your digital ambition into a system that works.</p>
+        <h2>Tell us where leads slip through.</h2>
+        <p>
+          A short call about your website and your follow-up, and whether we
+          can help. No obligation.
+        </p>
       </div>
-      <Button>Book a Free Strategy Call</Button>
+      <Button>Get in touch</Button>
     </section>
   );
 }
@@ -100,26 +87,29 @@ export function Comparison() {
   return (
     <div className="comparison">
       <div className="demo-toolbar">
-        <span className="tiny">CONCEPT DEMONSTRATION</span>
-        <div className="segmented" aria-label="Website comparison">
+        <span className="demo-title">Same hotel, two websites</span>
+        <div className="segmented" role="group" aria-label="Website version">
           <button aria-pressed={!after} onClick={() => setAfter(false)}>
-            Before
+            Typical
           </button>
           <button aria-pressed={after} onClick={() => setAfter(true)}>
-            After <Sparkles size={12} />
+            Redesigned
           </button>
         </div>
       </div>
-      <div className={`compare-scene ${after ? "premium" : "basic"}`}>
+      <div
+        className={`compare-scene ${after ? "premium" : "basic"}`}
+        aria-live="polite"
+      >
         <div className="mini-nav">
           <b>{after ? "A U R A" : "Aura Hotel"}</b>
           <span>Stay · Discover · Reserve</span>
         </div>
-        <div className="arch arch-one" />
-        <div className="arch arch-two" />
+        <div className="arch arch-one" aria-hidden="true" />
+        <div className="arch arch-two" aria-hidden="true" />
         <div className="compare-copy">
           <small>
-            {after ? "A PLACE TO DISCONNECT" : "WELCOME TO OUR WEBSITE"}
+            {after ? "A place to disconnect" : "Welcome to our website"}
           </small>
           <h3>
             {after ? (
@@ -139,23 +129,15 @@ export function Comparison() {
           </p>
           <Link to="/work?project=AURA">
             {after ? "Discover the escape" : "View our rooms"}{" "}
-            <ArrowUpRight size={14} />
+            <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
         </div>
-        <span className="scene-caption">
-          {after ? "01 / THE ART OF SLOW LIVING" : "Hotel website concept"}
-        </span>
       </div>
-      <div className="compare-bottom">
-        <span>
-          {after
-            ? "Narrative. Atmosphere. Intent."
-            : "Information without a distinctive experience."}
-        </span>
-        <span className="tiny">
-          {after ? "NEXUS APPROACH" : "CONVENTIONAL APPROACH"}
-        </span>
-      </div>
+      <p className="compare-bottom">
+        {after
+          ? "One clear story, one clear next step: reserve."
+          : "All the facts, nothing that makes you want to stay."}
+      </p>
     </div>
   );
 }
@@ -164,35 +146,35 @@ export function Workflow() {
     [playing, setPlaying] = useState(false);
   useEffect(() => {
     if (!playing) return;
-    const t = setInterval(
-      () =>
-        setActive((a) => {
-          if (a === 4) {
-            setPlaying(false);
-            return a;
-          }
-          return a + 1;
-        }),
-      1400,
-    );
-    return () => clearInterval(t);
-  }, [playing]);
+    if (active === workflow.length - 1) {
+      setPlaying(false);
+      return;
+    }
+    const t = setTimeout(() => setActive((a) => a + 1), 1400);
+    return () => clearTimeout(t);
+  }, [playing, active]);
   const step = workflow[active];
   return (
     <div className="workflow-panel">
       <div className="demo-toolbar">
-        <span className="tiny">
-          <span className="status-dot" /> INTERACTIVE WORKFLOW · SIMULATION
-        </span>
+        <span className="demo-title">One inquiry, start to finish</span>
         <button
           className="text-button"
           onClick={() => {
-            setActive(0);
-            setPlaying((p) => !p);
+            if (playing) {
+              setPlaying(false);
+              return;
+            }
+            if (active === workflow.length - 1) setActive(0);
+            setPlaying(true);
           }}
         >
-          {playing ? <RotateCcw size={14} /> : <Play size={14} />}{" "}
-          {playing ? "Stop" : "Play simulation"}
+          {playing ? (
+            <Square size={14} aria-hidden="true" />
+          ) : (
+            <Play size={14} aria-hidden="true" />
+          )}
+          {playing ? "Pause" : "Play"}
         </button>
       </div>
       <div className="workflow-nodes">
@@ -206,29 +188,29 @@ export function Workflow() {
             }}
             aria-pressed={i === active}
           >
-            <span>{i < active ? <Check size={20} /> : s.icon}</span>
+            <span aria-hidden="true">
+              {i < active ? <Check size={16} /> : i + 1}
+            </span>
             <b>{s.name}</b>
           </button>
         ))}
       </div>
       <div className="workflow-detail" aria-live="polite">
         <div>
-          <small>STEP {step.icon}</small>
           <h3>{step.name}</h3>
           <p>{step.benefit}</p>
         </div>
         <dl>
-          <dt>Trigger</dt>
+          <dt>When</dt>
           <dd>{step.trigger}</dd>
-          <dt>Action</dt>
+          <dt>What happens</dt>
           <dd>{step.action}</dd>
-          <dt>Required data</dt>
+          <dt>What it needs</dt>
           <dd>{step.data}</dd>
         </dl>
       </div>
       <p className="disclaimer">
-        Illustrative workflow. No messages are sent, appointments booked or CRM
-        records created.
+        A simulation. Nothing is sent, booked or saved.
       </p>
     </div>
   );
@@ -256,6 +238,13 @@ const demoFlows = [
     next: "Great. Would a weekday or weekend viewing suit you?",
   },
 ];
+const journeySteps = [
+  "Inquiry received",
+  "Need understood",
+  "Preferences collected",
+  "Contact details added",
+  "Request ready for your team",
+];
 export function AssistantDemo() {
   const [industry, setIndustry] = useState(0),
     [step, setStep] = useState(0),
@@ -275,19 +264,17 @@ export function AssistantDemo() {
             ? ["Garden room", "Suite"]
             : ["Weekday", "Weekend"]
         : step === 2
-          ? ["Use sample contact: Alex · alex@example.com"]
+          ? ["Use sample contact: Alex, alex@example.com"]
           : step === 3
-            ? ["Prepare demo request"]
+            ? ["Send the request"]
             : [];
   return (
     <div className="assistant-grid">
       <div className="chat-panel">
         <div className="demo-toolbar">
-          <div>
-            <b>
-              <span className="status-dot" /> NEXUS Assistant
-            </b>
-            <small>Scripted demo · no live AI connection</small>
+          <div className="chat-identity">
+            <b>Website assistant</b>
+            <small>Scripted demo, no live AI</small>
           </div>
           <button
             className="icon-button"
@@ -297,10 +284,10 @@ export function AssistantDemo() {
               setAnswers([]);
             }}
           >
-            <RotateCcw size={17} />
+            <RotateCcw size={16} aria-hidden="true" />
           </button>
         </div>
-        <div className="industry-tabs">
+        <div className="industry-tabs" role="group" aria-label="Business type">
           {demoFlows.map((f, i) => (
             <button
               key={f.name}
@@ -319,16 +306,16 @@ export function AssistantDemo() {
           <div className="bubble customer">{flow.opening}</div>
           <div className="bubble bot">{flow.reply}</div>
           {answers.map((a, i) => (
-            <div key={i}>
+            <div className="bubble-pair" key={i}>
               <div className="bubble customer">{a}</div>
               <div className="bubble bot">
                 {i === 0
                   ? flow.next
                   : i === 1
-                    ? "Let’s attach a sample contact to this demonstration. Please don’t enter personal or health information."
+                    ? "Who should we send the confirmation to? Please don’t share health or other sensitive details here."
                     : i === 2
-                      ? "Your preferences are ready. Shall I prepare the sample request?"
-                      : "Demo request prepared. A connected system could send this to your team for review. No real appointment or reservation was created."}
+                      ? "Thanks. Shall I send this request to the team?"
+                      : "Done. The team has your request and will confirm shortly."}
               </div>
             </div>
           ))}
@@ -337,74 +324,75 @@ export function AssistantDemo() {
           {options.map((o) => (
             <button key={o} onClick={() => next(o)}>
               {o}
-              <ArrowRight size={14} />
+              <ArrowRight size={14} aria-hidden="true" />
             </button>
           ))}
           {step === 4 && (
             <span className="success-text">
-              <Check size={16} /> Simulation complete
+              <Check size={16} aria-hidden="true" /> That’s the whole flow.
+              Nothing was actually sent.
             </span>
           )}
         </div>
       </div>
       <div className="chat-journey">
-        <Label>BEHIND THE CONVERSATION</Label>
-        <h3>
-          A simple conversation.
-          <br />A connected journey.
-        </h3>
-        {[
-          "Inquiry received",
-          "Intent identified",
-          "Preferences collected",
-          "Sample contact attached",
-          "Request & CRM record simulated",
-        ].map((s, i) => (
-          <div className={`journey-step ${step >= i ? "done" : ""}`} key={s}>
-            <span>
-              {step >= i ? <Check size={15} /> : String(i + 1).padStart(2, "0")}
-            </span>
-            <p>{s}</p>
-            {step === i && <small>CURRENT</small>}
-          </div>
-        ))}
-        <p className="disclaimer">
-          Choose a response to move through the workflow. This demonstration
-          uses predefined responses and sample data.
+        <h3>What your team sees</h3>
+        <p>
+          Each answer moves the inquiry forward. By the end, your team gets a
+          complete request instead of a vague message.
         </p>
+        <ol>
+          {journeySteps.map((s, i) => (
+            <li
+              className={`journey-step ${step > i ? "done" : ""} ${step === i ? "current" : ""}`}
+              key={s}
+            >
+              <span aria-hidden="true">
+                {step > i ? <Check size={14} /> : i + 1}
+              </span>
+              {s}
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
 }
 const fields: [keyof typeof defaultInputs, string, string, number][] = [
-  ["leads", "Monthly incoming leads", "", 10],
+  ["leads", "Inquiries per month", "", 10],
   ["value", "Average customer value", "€", 50],
-  ["conversion", "Lead-to-customer conversion", "%", 1],
-  ["missed", "Leads lost to slow responses", "%", 1],
-  ["recovery", "Expected missed-lead recovery", "%", 5],
-  ["hours", "Administrative hours / week", "h", 1],
-  ["saving", "Administrative time saved", "%", 5],
+  ["conversion", "Inquiries that become customers", "%", 1],
+  ["missed", "Inquiries lost to slow replies", "%", 1],
+  ["recovery", "Lost inquiries you could win back", "%", 5],
+  ["hours", "Admin hours per week", "h", 1],
+  ["saving", "Admin time automation could save", "%", 5],
 ];
-const presets = [
-  defaultInputs,
-  {
-    leads: 100,
-    value: 250,
-    conversion: 25,
-    missed: 20,
-    recovery: 40,
-    hours: 20,
-    saving: 50,
-  },
-  {
-    leads: 80,
-    value: 1200,
-    conversion: 10,
-    missed: 30,
-    recovery: 40,
-    hours: 12,
-    saving: 50,
-  },
+const presets: [string, typeof defaultInputs][] = [
+  ["Default", defaultInputs],
+  [
+    "Dental practice",
+    {
+      leads: 100,
+      value: 250,
+      conversion: 25,
+      missed: 20,
+      recovery: 40,
+      hours: 20,
+      saving: 50,
+    },
+  ],
+  [
+    "Boutique hotel",
+    {
+      leads: 80,
+      value: 1200,
+      conversion: 10,
+      missed: 30,
+      recovery: 40,
+      hours: 12,
+      saving: 50,
+    },
+  ],
 ];
 function AnimatedNumber({
   value,
@@ -448,21 +436,22 @@ export function ROICalculator() {
   const query = new URLSearchParams(
     Object.entries(input).map(([k, v]) => [k, String(v)]),
   ).toString();
+  const activePreset = presets.findIndex(([, p]) =>
+    (Object.keys(p) as (keyof typeof p)[]).every((k) => p[k] === input[k]),
+  );
   return (
     <div className="roi-grid">
       <div className="roi-controls">
-        <div className="demo-toolbar">
-          <b>Your business. Your assumptions.</b>
-          <span className="tiny">EDIT EVERY INPUT</span>
-        </div>
-        <div className="industry-tabs">
-          {["Custom baseline", "Dental practice", "Boutique hotel"].map(
-            (s, i) => (
-              <button key={s} onClick={() => setInput({ ...presets[i] })}>
-                {s}
-              </button>
-            ),
-          )}
+        <div className="industry-tabs" role="group" aria-label="Example numbers">
+          {presets.map(([name, p], i) => (
+            <button
+              key={name}
+              aria-pressed={activePreset === i}
+              onClick={() => setInput({ ...p })}
+            >
+              {name}
+            </button>
+          ))}
         </div>
         {fields.map(([key, label, unit, step]) => (
           <div className="range-field" key={key}>
@@ -499,7 +488,7 @@ export function ROICalculator() {
               value={input[key]}
               style={
                 {
-                  "--range": `${((input[key] - limits[key][0]) / (limits[key][1] - limits[key][0])) * 100}%`,
+                  "--range": `${Math.min(100, Math.max(0, ((input[key] - limits[key][0]) / (limits[key][1] - limits[key][0])) * 100))}%`,
                 } as React.CSSProperties
               }
               onChange={(e) =>
@@ -510,62 +499,46 @@ export function ROICalculator() {
         ))}
       </div>
       <div className="roi-results" aria-live="polite" aria-atomic="true">
-        <Label>THE OPPORTUNITY IN YOUR NUMBERS</Label>
-        <p>Estimated monthly revenue opportunity</p>
+        <p>Revenue you could win back each month</p>
         <div className="result-value">
           <AnimatedNumber value={result.monthly} currency />
-        </div>
-        <div
-          className="mini-chart"
-          role="img"
-          aria-label={`Cumulative opportunity: ${Math.round(result.monthly)} euros at one month, ${Math.round(result.annual)} euros at twelve months.`}
-        >
-          {[1, 3, 6, 9, 12].map((n) => (
-            <div key={n}>
-              <span
-                title={`€${Math.round(result.monthly * n).toLocaleString('en-GB')} cumulative opportunity after ${n} months`}
-                style={{ height: `${result.monthly === 0 ? 0 : 12 + n * 8}px` }}
-              />
-              <small>{n} mo</small>
-            </div>
-          ))}
         </div>
         <div className="result-secondary">
           <div>
             <b>
               <AnimatedNumber value={result.annual} currency />
             </b>
-            <span>Annual revenue opportunity</span>
+            <span>per year</span>
           </div>
           <div>
             <b>
               {Number(result.weeklyHours.toFixed(1))}
-              <small> hrs</small>
+              <small> h</small>
             </b>
-            <span>Saved each week</span>
+            <span>admin saved per week</span>
           </div>
           <div>
             <b>
               <AnimatedNumber value={result.annualHours} />
-              <small> hrs</small>
+              <small> h</small>
             </b>
-            <span>Saved each year</span>
+            <span>admin saved per year</span>
           </div>
         </div>
-        <Button to={`/contact?${query}`}>Let's Build Your Growth System</Button>
+        <Button to={`/contact?${query}`}>Discuss these numbers</Button>
         <p className="disclaimer">
-          Illustrative estimates, not guaranteed outcomes. Revenue is not
-          profit; implementation costs are excluded. Presets are example
-          assumptions, not industry benchmarks.
+          An estimate from your inputs, not a promise. It’s revenue, not
+          profit, and doesn’t include what the work costs. The presets are
+          examples, not industry benchmarks.
         </p>
         <details className="formula">
           <summary>
-            How we calculate this <ChevronDown size={13} />
+            How it’s calculated <ChevronDown size={14} aria-hidden="true" />
           </summary>
           <p>
-            Monthly leads × missed-lead % × recovery % × conversion % × customer
-            value. Annual revenue = monthly × 12. Weekly hours = admin hours ×
-            time-saving %. Annual hours = weekly × 52.
+            Inquiries × lost % × won back % × conversion % × customer value =
+            monthly. Yearly = monthly × 12. Weekly hours = admin hours × saved
+            %. Yearly hours = weekly × 52.
           </p>
         </details>
       </div>
@@ -578,46 +551,44 @@ export function Industries() {
   return (
     <section className="wrap section">
       <SectionHead
-        label="BUILT AROUND YOUR BUSINESS"
-        title="Different industries. Shared ambition."
-        text="The right experience starts with understanding how your business actually works."
+        title="Built around how your business works."
+        text="Pick your industry to see what we’d look at first."
       />
       <div className="industry-layout">
-        <div className="industry-menu">
+        <div className="industry-menu" role="group" aria-label="Industry">
           {industries.map((s, i) => (
             <button
               key={s}
               onClick={() => setSelected(i)}
               aria-pressed={selected === i}
             >
-              <span>0{i + 1}</span>
               {s}
-              <ArrowUpRight size={17} />
+              <ArrowRight size={16} aria-hidden="true" />
             </button>
           ))}
         </div>
-        <div className="industry-content">
-          <span className="tiny">
-            INTELLIGENT GROWTH / {industries[selected].toUpperCase()}
-          </span>
+        <div className="industry-content" aria-live="polite">
           <h3>{item.challenge}</h3>
           <div className="two-cols">
             <div>
-              <small>A SMARTER WORKFLOW</small>
+              <h4>Automation</h4>
               <p>{item.automation}</p>
             </div>
             <div>
-              <small>A BETTER EXPERIENCE</small>
+              <h4>Website</h4>
               <p>{item.web}</p>
             </div>
           </div>
-          <div className="industry-journey">{item.journey}</div>
+          <div className="industry-journey">
+            <span>A typical journey</span>
+            {item.journey}
+          </div>
           {item.note && <p className="disclaimer">{item.note}</p>}
           <Link
             className="inline-link"
             to={`/contact?industry=${encodeURIComponent(industries[selected])}`}
           >
-            Explore your possibilities <ArrowUpRight size={16} />
+            Talk to us about this <ArrowRight size={16} aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -628,20 +599,18 @@ export function FAQ() {
   return (
     <section className="wrap section faq-section">
       <div>
-        <Label>A LITTLE MORE CLARITY</Label>
-        <h2>
-          Good questions.
-          <br />
-          Straight answers.
-        </h2>
-        <p>Every partnership starts with a conversation.</p>
+        <h2>Questions people ask first.</h2>
+        <p>
+          Anything else, ask us directly. Every project starts with a
+          conversation.
+        </p>
       </div>
       <div>
         {faqs.map(([q, a]) => (
           <details className="faq" key={q}>
             <summary>
               {q}
-              <ChevronDown size={17} />
+              <ChevronDown size={18} aria-hidden="true" />
             </summary>
             <p>{a}</p>
           </details>

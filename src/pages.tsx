@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import {
   Button,
-  Label,
   Reveal,
   SectionHead,
   CTA,
@@ -36,23 +35,19 @@ import { ProjectArt } from "./ProjectArt";
 import Contact from "./Contact";
 import Legal from "./Legal";
 function PageHero({
-  label,
   title,
   text,
   children,
 }: {
-  label: string;
   title: ReactNode;
   text: string;
   children?: ReactNode;
 }) {
   return (
     <section className="wrap page-hero">
-      <Label>{label}</Label>
       <h1>{title}</h1>
       <p>{text}</p>
       {children}
-      <span className="page-breadcrumb">NEXUS / {label}</span>
     </section>
   );
 }
@@ -107,7 +102,6 @@ function WebDesign() {
       <ServiceSwitch />
       <section className="wrap studio-hero">
         <div className="studio-heading">
-          <Label>01 / THE DIGITAL EXPERIENCE STUDIO</Label>
           <h1>
             Don’t just <br />
             show up.
@@ -163,7 +157,6 @@ function WebDesign() {
       </div>
       <section className="wrap section service-intro">
         <div>
-          <Label>BEYOND THE FIRST IMPRESSION</Label>
           <h2>
             Your website is
             <br />
@@ -188,7 +181,6 @@ function WebDesign() {
       <section className="studio-showcase">
         <div className="wrap section">
           <SectionHead
-            label="SEE THE DIFFERENCE"
             title="Same business. A different feeling."
             text="Switch between a conventional hotel page and an expressive digital concept. See what considered design changes."
           />
@@ -221,7 +213,6 @@ function WebDesign() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="WHAT WE BRING TO THE TABLE"
           title="Creative freedom. Technical precision."
         />
         <div className="feature-grid">
@@ -237,7 +228,6 @@ function WebDesign() {
       <section className="wrap section" id="web-concepts">
         <div className="section-title-row">
           <SectionHead
-            label="EXPLORE THE POSSIBILITIES"
             title="Built to feel different."
             text="Original concepts, created to demonstrate the experience—not to claim client results."
           />
@@ -266,7 +256,6 @@ function WebDesign() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="A CLEAR PATH FROM IDEA TO LAUNCH"
           title="Built together. Step by step."
         />
         <Process
@@ -334,7 +323,6 @@ function Automation() {
       <ServiceSwitch />
       <section className="wrap automation-hero">
         <div>
-          <Label>02 / THE INTELLIGENT OPERATIONS PARTNER</Label>
           <h1>
             More momentum.
             <br />
@@ -417,7 +405,6 @@ function Automation() {
       <section className="wrap section">
         <div className="automation-problem">
           <div>
-            <Label>THE SPACE BETWEEN INTEREST AND ACTION</Label>
             <h2>
               Good leads shouldn’t
               <br />
@@ -452,7 +439,6 @@ function Automation() {
       <section className="automation-demo-section" id="automation-demo">
         <div className="wrap section">
           <SectionHead
-            label="LOOK INSIDE THE SYSTEM"
             title="Every step has a reason."
             text="Play the customer journey or select a step to see its trigger, action and required data."
           />
@@ -461,7 +447,6 @@ function Automation() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="EXPERIENCE THE CUSTOMER SIDE"
           title="A conversation with a clear next step."
           text="Try a scripted assistant for a dental practice, hotel or real estate agency. No API keys or personal details needed."
         />
@@ -469,7 +454,6 @@ function Automation() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="WHAT WE CAN CONNECT"
           title="Small tasks. A bigger opportunity."
         />
         <div className="feature-grid">
@@ -495,7 +479,6 @@ function Automation() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="START WITH THE NUMBERS"
           title="Find the opportunity in your workflow."
           text="Model lead recovery and time savings using assumptions you can change."
         />
@@ -559,7 +542,6 @@ function ProjectPreview({ project }: { project: (typeof projects)[number] }) {
         ))}
       </div>
       <div className="preview-result" aria-live="polite">
-        <Label>EXPLORE THE CONCEPT</Label>
         <h3>{selected}</h3>
         <p>
           {project.name === "AURA"
@@ -607,7 +589,6 @@ function Work() {
           </Link>
           <div className="detail-heading">
             <div>
-              <Label>{project.industry.toUpperCase()} / CONCEPT PROJECT</Label>
               <h1>{project.title}</h1>
               <p>{project.description}</p>
             </div>
@@ -638,7 +619,6 @@ function Work() {
   return (
     <>
       <PageHero
-        label="THE CONCEPT COLLECTION"
         title={
           <>
             Ideas made interactive.
@@ -748,7 +728,6 @@ function Pricing() {
   return (
     <>
       <PageHero
-        label="ENGAGEMENT MODELS"
         title={
           <>
             Flexible partnerships.
@@ -850,7 +829,6 @@ function About() {
   return (
     <>
       <PageHero
-        label="A CREATIVE & TECHNICAL PARTNERSHIP"
         title={
           <>
             Better experiences.
@@ -863,7 +841,6 @@ function About() {
         text="NEXUS brings creative web design, AI-assisted engineering and business process automation into one considered approach."
       />
       <section className="wrap section about-statement">
-        <Label>OUR PHILOSOPHY</Label>
         <div>
           <h2>
             There shouldn’t be a gap between how good your business looks and
@@ -907,7 +884,6 @@ function About() {
       </section>
       <section className="wrap section">
         <SectionHead
-          label="HOW WE WORK"
           title="A thoughtful process. A shared direction."
           text="From the first conversation to the next improvement, you know what we’re building and why."
         />
@@ -944,7 +920,6 @@ function ROIPage() {
   return (
     <>
       <PageHero
-        label="THE AUTOMATION OPPORTUNITY CALCULATOR"
         title={
           <>
             What could slow
@@ -988,7 +963,6 @@ function ROIPage() {
 function NotFound() {
   return (
     <section className="wrap not-found">
-      <Label>404 / A DIFFERENT DIRECTION</Label>
       <h1>
         Let’s get you
         <br />

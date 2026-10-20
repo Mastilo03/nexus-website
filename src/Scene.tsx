@@ -13,7 +13,7 @@ function Pulse() {
     const a = points[segment], b = points[segment + 1];
     pulse.current?.position.set(a[0] + (b[0] - a[0]) * fraction, a[1] + (b[1] - a[1]) * fraction, a[2]);
   });
-  return <mesh ref={pulse}><sphereGeometry args={[0.045, 10, 10]}/><meshBasicMaterial color="#a0ffff"/></mesh>;
+  return <mesh ref={pulse}><sphereGeometry args={[0.045, 10, 10]}/><meshBasicMaterial color="#d7f78c"/></mesh>;
 }
 
 function PerformanceGuard({onSlow}: {onSlow: () => void}) {
@@ -46,7 +46,7 @@ function Core() {
             <mesh key={r} rotation={[i * 0.1, 0, i * 0.3]}>
               <torusGeometry args={[r, 0.012, 8, 100]} />
               <meshBasicMaterial
-                color={i === 2 ? "#28363f" : "#00d7e6"}
+                color={i === 2 ? "#2c3036" : "#c8f169"}
                 transparent
                 opacity={i === 2 ? 0.4 : 0.35}
               />
@@ -55,7 +55,7 @@ function Core() {
         </group>
         <RoundedBox args={[2.4, 1.5, 0.18]} radius={0.12} smoothness={4}>
           <meshPhysicalMaterial
-            color="#193039"
+            color="#1c1f25"
             metalness={0.8}
             roughness={0.22}
             transparent
@@ -69,10 +69,10 @@ function Core() {
           radius={0.07}
         >
           <meshStandardMaterial
-            color="#173b42"
+            color="#22261d"
             metalness={0.6}
             roughness={0.25}
-            emissive="#00a9ba"
+            emissive="#9bc34a"
             emissiveIntensity={0.13}
           />
         </RoundedBox>
@@ -83,7 +83,7 @@ function Core() {
             [0.3, -0.2, 0.21],
             [0.3, 0.2, 0.21],
           ]}
-          color="#8affff"
+          color="#d7f78c"
           lineWidth={5}
         />
         {[
@@ -95,14 +95,14 @@ function Core() {
           <group key={i} position={pos as [number, number, number]}>
             <RoundedBox args={[0.36, 0.36, 0.14]} radius={0.06}>
               <meshStandardMaterial
-                color="#15454f"
+                color="#272b32"
                 metalness={0.6}
                 roughness={0.3}
               />
             </RoundedBox>
             <mesh position={[0, 0, 0.1]}>
               <sphereGeometry args={[0.05, 12, 12]} />
-              <meshBasicMaterial color={i === 3 ? "#00e5a8" : "#00f0ff"} />
+              <meshBasicMaterial color={i === 3 ? "#c8f169" : "#e9ecef"} />
             </mesh>
           </group>
         ))}
@@ -113,7 +113,7 @@ function Core() {
             [1.65, 0, 0.1],
             [1.65, 0.6, 0.1],
           ]}
-          color="#00b6c7"
+          color="#8f9a6a"
           transparent
           opacity={0.45}
           lineWidth={1}
@@ -125,7 +125,7 @@ function Core() {
             [1.5, -0.5, 0.1],
             [1.5, -0.9, 0.2],
           ]}
-          color="#00b6c7"
+          color="#8f9a6a"
           transparent
           opacity={0.45}
           lineWidth={1}
@@ -139,14 +139,16 @@ export default function Scene({onSlow}: {onSlow: () => void}) {
   return (
     <Canvas
       dpr={[1, 1.4]}
-      camera={{ position: [0, 0, 5.4], fov: 48 }}
+      camera={{ position: [0, 0, 6], fov: 48 }}
       gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
       aria-hidden="true"
     >
       <ambientLight intensity={1.4} />
-      <directionalLight position={[2, 4, 5]} intensity={3} color="#b8faff" />
-      <pointLight position={[-3, -2, 2]} intensity={6} color="#00cfdf" />
-      <Core />
+      <directionalLight position={[2, 4, 5]} intensity={3} color="#f2f5e8" />
+      <pointLight position={[-3, -2, 2]} intensity={6} color="#c8f169" />
+      <group position={[-0.95, 0.45, 0]} scale={0.92}>
+        <Core />
+      </group>
       <PerformanceGuard onSlow={onSlow}/>
     </Canvas>
   );

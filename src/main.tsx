@@ -9,8 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import {
-  ArrowUpRight,
-  ArrowDown,
+  ArrowRight,
   ChevronDown,
   Menu,
   X,
@@ -18,29 +17,24 @@ import {
   Workflow as WorkflowIcon,
   Check,
   MessageSquare,
-  CalendarDays,
+  CalendarCheck,
   Database,
-  ArrowRight,
-  Globe,
-  Zap,
+  Reply,
 } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
 import {
   Button,
-  Label,
-  Reveal,
   SectionHead,
   CTA,
-  Comparison,
-  Workflow,
   AssistantDemo,
   ROICalculator,
   Industries,
+  useReducedMotion,
 } from "./components";
 import { projects } from "./data";
 import { ProjectArt } from "./ProjectArt";
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
 import "./style.css";
-import "./refinements.css";
 const Scene = lazy(() => import("./Scene"));
 const Pages = lazy(() => import("./pages"));
 const metadata: Record<string, [string, string]> = {
@@ -117,7 +111,7 @@ function Logo() {
       <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <path d="M6 29V7h6l12 22h6V7h-6v15L12 7H6v22Z" fill="currentColor" />
       </svg>
-      NEXUS<span className="logo-period">®</span>
+      NEXUS
     </Link>
   );
 }
@@ -139,6 +133,9 @@ function Header() {
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", open);
+  }, [open]);
   return (
     <header className="header">
       <div className="nav-wrap">
@@ -158,40 +155,41 @@ function Header() {
               aria-expanded={services}
               onClick={() => setServices(!services)}
             >
-              Services <ChevronDown size={13} />
+              Services <ChevronDown size={14} aria-hidden="true" />
             </button>
             {services && (
               <div className="dropdown">
                 <Link to="/services/web-design">
-                  <Layers size={19} />
-                  <div>
-                    Immersive Web Design
-                    <small>Designed to be remembered.</small>
-                  </div>
+                  <Layers size={18} aria-hidden="true" />
+                  <span>
+                    Web design
+                    <small>Sites that turn visits into inquiries</small>
+                  </span>
                 </Link>
                 <Link to="/services/automation">
-                  <WorkflowIcon size={19} />
-                  <div>
-                    AI Automation<small>Built to keep things moving.</small>
-                  </div>
+                  <WorkflowIcon size={18} aria-hidden="true" />
+                  <span>
+                    Automation
+                    <small>Replies, bookings and CRM, handled</small>
+                  </span>
                 </Link>
               </div>
             )}
           </div>
-          <NavLink to="/work">Our Work</NavLink>
-          <NavLink to="/roi-calculator">ROI Calculator</NavLink>
+          <NavLink to="/work">Work</NavLink>
+          <NavLink to="/roi-calculator">ROI calculator</NavLink>
           <NavLink to="/pricing">Pricing</NavLink>
           <NavLink to="/about">About</NavLink>
-          <Button className="mobile-cta">Book a Free Strategy Call</Button>
+          <Button className="mobile-cta">Get in touch</Button>
         </nav>
-        <Button className="nav-cta">Book a Free Strategy Call</Button>
+        <Button className="nav-cta">Get in touch</Button>
         <button
           className="menu-button icon-button"
           aria-expanded={open}
           aria-label={open ? "Close navigation" : "Open navigation"}
           onClick={() => setOpen(!open)}
         >
-          {open ? <X /> : <Menu />}
+          {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
     </header>
@@ -199,43 +197,35 @@ function Header() {
 }
 function Footer() {
   return (
-    <footer className="wrap footer">
-      <div className="footer-top">
-        <div>
+    <footer className="footer">
+      <div className="wrap footer-top">
+        <div className="footer-brand">
           <Logo />
-          <p>
-            Creative intelligence.
-            <br />
-            Connected possibilities.
-          </p>
-          <span className="tiny">AUTOMATION & DIGITAL EXPERIENCES</span>
+          <p>Websites and automation for service businesses.</p>
         </div>
-        <div>
-          <small>EXPLORE</small>
-          <Link to="/services/web-design">Web Design</Link>
-          <Link to="/services/automation">AI Automation</Link>
-          <Link to="/work">Our Work</Link>
-        </div>
-        <div>
-          <small>YOUR NEXT STEP</small>
-          <Link to="/roi-calculator">ROI Calculator</Link>
-          <Link to="/pricing">Engagement Models</Link>
-          <Link to="/contact">
-            Start a Conversation <ArrowUpRight size={13} />
-          </Link>
-        </div>
-        <div>
-          <small>THE STUDIO</small>
-          <Link to="/about">About NEXUS</Link>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Use</Link>
-        </div>
+        <nav aria-label="Footer">
+          <div>
+            <h2>Services</h2>
+            <Link to="/services/web-design">Web design</Link>
+            <Link to="/services/automation">Automation</Link>
+            <Link to="/roi-calculator">ROI calculator</Link>
+          </div>
+          <div>
+            <h2>Company</h2>
+            <Link to="/work">Work</Link>
+            <Link to="/pricing">Pricing</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <Link to="/privacy">Privacy</Link>
+            <Link to="/terms">Terms</Link>
+          </div>
+        </nav>
       </div>
-      <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} NEXUS. Built with intention.</span>
-        <span>
-          <span className="status-dot" /> HUMAN AMBITION. DIGITAL POSSIBILITY.
-        </span>
+      <div className="wrap footer-bottom">
+        © {new Date().getFullYear()} NEXUS
       </div>
     </footer>
   );
@@ -253,27 +243,52 @@ class SceneBoundary extends React.Component<
     return { failed: true };
   }
   render() {
-    return this.state.failed ? (
-      <div className="fallback-core">
-        N<span>CONNECTED INTELLIGENCE</span>
-      </div>
-    ) : (
-      this.props.children
-    );
+    return this.state.failed ? null : this.props.children;
   }
 }
+const heroEvents = [
+  {
+    icon: MessageSquare,
+    time: "21:47",
+    title: "New inquiry from your website",
+    detail: "“Do you have anything free this week?”",
+  },
+  {
+    icon: Reply,
+    time: "21:47",
+    title: "Replied with two open times",
+    detail: "Thursday 10:30 or Friday 15:00",
+  },
+  {
+    icon: CalendarCheck,
+    time: "21:52",
+    title: "Booked for Thursday 10:30",
+    detail: "Confirmation and reminder sent",
+  },
+  {
+    icon: Database,
+    time: "21:52",
+    title: "Added to your CRM",
+    detail: "Ready for your team in the morning",
+  },
+];
 function HeroVisual() {
   const reduced = useReducedMotion();
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 701px)");
+    const desktop = window.matchMedia("(min-width: 901px)");
     const update = () => {
-      if (!desktop.matches || reduced) { setReady(false); return; }
+      if (!desktop.matches || reduced) {
+        setReady(false);
+        return;
+      }
       try {
         const gl = document.createElement("canvas").getContext("webgl2");
         setReady(Boolean(gl));
         gl?.getExtension("WEBGL_lose_context")?.loseContext();
-      } catch { setReady(false); }
+      } catch {
+        setReady(false);
+      }
     };
     update();
     desktop.addEventListener("change", update);
@@ -281,75 +296,35 @@ function HeroVisual() {
   }, [reduced]);
   return (
     <div className="hero-visual">
-      <div className="visual-grid" />
-      <div className="orbit orbit-a" />
-      <div className="orbit orbit-b" />
-      <div className="scene-container">
-        <SceneBoundary>
-          {ready ? (
-            <Suspense
-              fallback={
-                <div className="fallback-core">
-                  N<span>CONNECTED INTELLIGENCE</span>
-                </div>
-              }
-            >
+      <div className="scene-container" aria-hidden="true">
+        {ready && (
+          <SceneBoundary>
+            <Suspense fallback={null}>
               <Scene onSlow={() => setReady(false)} />
             </Suspense>
-          ) : (
-            <div className="fallback-core">
-              N<span>CONNECTED INTELLIGENCE</span>
-            </div>
-          )}
-        </SceneBoundary>
+          </SceneBoundary>
+        )}
       </div>
-      <div className="visual-topline">
-        <span className="tiny">NEXUS / CONNECTED INTELLIGENCE</span>
-        <span className="tiny">
-          <span className="status-dot" /> DEMO SYSTEM
-        </span>
-      </div>
-      <div className="float-card lead">
-        <span className="card-icon">
-          <MessageSquare size={16} />
-        </span>
-        <div>
-          <small>NEW LEAD</small>
-          <b>Opportunity received</b>
-        </div>
-        <span className="mini-dot" />
-      </div>
-      <div className="float-card response">
-        <span className="card-icon">
-          <Zap size={16} />
-        </span>
-        <div>
-          <small>AI RESPONSE</small>
-          <b>A conversation begins</b>
-        </div>
-      </div>
-      <div className="float-card booked">
-        <span className="card-icon green">
-          <CalendarDays size={16} />
-        </span>
-        <div>
-          <small>APPOINTMENT</small>
-          <b>Next step, confirmed</b>
-        </div>
-        <Check size={15} className="green-text" />
-      </div>
-      <div className="float-card crm">
-        <Database size={14} />
-        <span>CRM updated</span>
-        <Check size={13} />
-      </div>
-      <div className="visual-footer">
-        <span>01 — CAPTURE</span>
-        <i />
-        <span>02 — CONNECT</span>
-        <i />
-        <span>03 — CONVERT</span>
-      </div>
+      <figure className="hero-feed">
+        <figcaption>
+          <span>After hours, handled</span>
+          <small>Sample</small>
+        </figcaption>
+        <ol>
+          {heroEvents.map(({ icon: Icon, time, title, detail }, i) => (
+            <li key={title} style={{ "--i": i } as React.CSSProperties}>
+              <span className="feed-icon" aria-hidden="true">
+                <Icon size={16} />
+              </span>
+              <div>
+                <b>{title}</b>
+                <small>{detail}</small>
+              </div>
+              <time>{time}</time>
+            </li>
+          ))}
+        </ol>
+      </figure>
     </div>
   );
 }
@@ -357,40 +332,85 @@ function Hero() {
   return (
     <section className="hero wrap">
       <div className="hero-copy">
-        <Label>THE FUTURE OF DIGITAL GROWTH</Label>
-        <h1>
-          Websites that
-          <br />
-          captivate.
-          <br />
-          <span>
-            AI systems <br />
-            that convert.
-          </span>
-        </h1>
+        <h1>Never lose a lead to a slow reply.</h1>
         <p>
-          Unforgettable digital experiences. Intelligent automation.
-          <br className="desktop-break" /> Built together to move your business
-          forward.
+          We design websites that bring inquiries in, and automations that
+          answer, qualify and book them, even after hours.
         </p>
         <div className="hero-buttons">
-          <a href="#solutions" className="button">
-            Explore Our Solutions <ArrowUpRight size={17} />
+          <Button>Get in touch</Button>
+          <a href="#demo" className="button secondary">
+            Try the demo
           </a>
-          <Button to="/roi-calculator" secondary>
-            Calculate Your ROI
-          </Button>
-        </div>
-        <div className="hero-reassurance">
-          <span className="small-line" /> Built for ambition. Designed for
-          measurable results.
         </div>
       </div>
       <HeroVisual />
-      <a className="scroll-hint" href="#solutions">
-        <ArrowDown size={14} /> SCROLL TO EXPLORE
-      </a>
-      <span className="hero-index">CREATIVE × INTELLIGENT / 001</span>
+    </section>
+  );
+}
+function Solutions() {
+  return (
+    <section className="wrap section" id="solutions">
+      <SectionHead
+        title="The website brings them in. The system follows up."
+        text="Two services that work on their own, and work best together."
+      />
+      <div className="service-paths">
+        <Link className="service-path" to="/services/web-design">
+          <div className="path-visual">
+            <ProjectArt art="hotel" name="AURA" />
+          </div>
+          <div className="path-content">
+            <h3>Web design</h3>
+            <p>
+              A site that looks as good as your business is, explains what you
+              do in seconds, and makes getting in touch the obvious next step.
+            </p>
+            <ul className="path-tags">
+              <li>Custom design</li>
+              <li>Mobile first</li>
+              <li>Clear inquiry path</li>
+            </ul>
+            <span className="path-link">
+              See web design <ArrowRight size={16} aria-hidden="true" />
+            </span>
+          </div>
+        </Link>
+        <Link className="service-path" to="/services/automation">
+          <div className="path-visual path-flow" aria-hidden="true">
+            <div className="path-node">
+              <MessageSquare size={18} />
+              <span>Inquiry</span>
+            </div>
+            <i />
+            <div className="path-node center">
+              <Check size={18} />
+              <span>Qualified</span>
+            </div>
+            <i />
+            <div className="path-node">
+              <CalendarCheck size={18} />
+              <span>Booked</span>
+            </div>
+          </div>
+          <div className="path-content">
+            <h3>Automation</h3>
+            <p>
+              Inquiries answered in minutes, the right questions asked,
+              appointments booked and your CRM kept up to date. Your team
+              approves what matters.
+            </p>
+            <ul className="path-tags">
+              <li>Website and chat assistants</li>
+              <li>Booking</li>
+              <li>CRM</li>
+            </ul>
+            <span className="path-link">
+              See automation <ArrowRight size={16} aria-hidden="true" />
+            </span>
+          </div>
+        </Link>
+      </div>
     </section>
   );
 }
@@ -399,111 +419,27 @@ function SelectedWork() {
     <section className="wrap section">
       <div className="section-title-row">
         <SectionHead
-          label="POSSIBILITIES, MADE TANGIBLE"
-          title="A glimpse of what’s possible."
-          text="Original concepts. Real interactions. A different kind of digital presence."
+          title="Concept projects"
+          text="Original concepts that show how we work. Each one has a working demo."
         />
         <Link className="inline-link" to="/work">
-          Explore all concepts <ArrowUpRight size={16} />
+          All six concepts <ArrowRight size={16} aria-hidden="true" />
         </Link>
       </div>
       <div className="selected-work">
-        {projects.slice(0, 3).map((p, i) => (
-          <Reveal key={p.name}>
-            <Link className="project-card" to={`/work?project=${p.name}`}>
-              <ProjectArt art={p.art} name={p.name} />
-              <div className="project-info">
-                <div>
-                  <span className="tiny">
-                    {p.industry} / CONCEPT {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3>{p.label}</h3>
-                </div>
-                <ArrowUpRight size={20} />
-              </div>
-            </Link>
-          </Reveal>
+        {projects.slice(0, 3).map((p) => (
+          <Link
+            key={p.name}
+            className="project-card"
+            to={`/work?project=${p.name}`}
+          >
+            <ProjectArt art={p.art} name={p.name} />
+            <div className="project-info">
+              <h3>{p.label}</h3>
+              <span>{p.industry}</span>
+            </div>
+          </Link>
         ))}
-      </div>
-    </section>
-  );
-}
-function Solutions() {
-  return (
-    <section className="wrap section" id="solutions">
-      <div className="section-title-row">
-        <SectionHead
-          label="TWO DISCIPLINES. ONE GROWTH PARTNER."
-          title="Make an impression. Build momentum."
-          text="Two distinct ways to move your business forward. Explore the experience your customers see—or the systems that work behind it."
-        />
-        <span className="section-number">01 / OUR EXPERTISE</span>
-      </div>
-      <div className="service-paths">
-        <Link className="service-path path-web" to="/services/web-design">
-          <div className="path-top">
-            <span>01 / DIGITAL EXPERIENCES</span>
-            <Layers size={22} />
-          </div>
-          <div className="path-visual">
-            <ProjectArt art="hotel" name="AURA" />
-          </div>
-          <div className="path-content">
-            <h3>Immersive Web Design</h3>
-            <p>
-              A digital presence that feels unmistakably yours. Distinctive
-              storytelling, thoughtful interaction and a clear path to action.
-            </p>
-            <div className="path-tags">
-              <span>Art direction</span>
-              <span>Interactive 3D</span>
-              <span>Conversion-focused UX</span>
-            </div>
-            <div className="path-link">
-              Explore the Design Studio <ArrowUpRight size={20} />
-            </div>
-          </div>
-        </Link>
-        <Link
-          className="service-path path-automation"
-          to="/services/automation"
-        >
-          <div className="path-top">
-            <span>02 / INTELLIGENT OPERATIONS</span>
-            <WorkflowIcon size={22} />
-          </div>
-          <div className="path-visual">
-            <div className="path-node">
-              <MessageSquare />
-              <span>New inquiry</span>
-            </div>
-            <i />
-            <div className="path-node center">
-              <Zap />
-              <span>NEXUS Engine</span>
-            </div>
-            <i />
-            <div className="path-node">
-              <CalendarDays />
-              <span>Next step</span>
-            </div>
-          </div>
-          <div className="path-content">
-            <h3>AI Automation</h3>
-            <p>
-              A business that keeps moving. Connect conversations, appointments
-              and customer records with less repetitive work.
-            </p>
-            <div className="path-tags">
-              <span>AI assistants</span>
-              <span>Workflow automation</span>
-              <span>CRM integrations</span>
-            </div>
-            <div className="path-link">
-              Explore the Automation Engine <ArrowUpRight size={20} />
-            </div>
-          </div>
-        </Link>
       </div>
     </section>
   );
@@ -512,46 +448,25 @@ function Home() {
   return (
     <>
       <Hero />
-      <div className="trust-strip wrap">
-        <p>
-          For businesses that refuse
-          <br />
-          to blend in.
-        </p>
-        <div>
-          {[
-            "Hospitality",
-            "Real Estate",
-            "Healthcare",
-            "Beauty & Wellness",
-            "Home Services",
-            "Professional Services",
-          ].map((s) => (
-            <span key={s}>{s}</span>
-          ))}
-        </div>
-      </div>
-      <Solutions />
-      <section className="demo-section">
+      <section className="demo-section" id="demo">
         <div className="wrap section">
           <SectionHead
-            label="LESS THEORY. MORE POSSIBILITY."
-            title="Don’t just read about it. Experience it."
-            text="Step into your customer’s shoes. See how a conversation can become a connected workflow."
+            title="See it from your customer’s side."
+            text="Pick a business and answer like a customer would. It’s a scripted demo, so nothing is sent or booked."
           />
           <AssistantDemo />
         </div>
       </section>
-      <SelectedWork />
+      <Solutions />
       <section className="wrap section">
         <SectionHead
-          label="MAKE THE OPPORTUNITY VISIBLE"
-          title="What could a faster response change?"
-          text="Explore the potential value of recovered leads and less repetitive work. Start with your numbers."
+          title="What are slow replies costing you?"
+          text="Put in your own numbers. The result is an estimate, not a promise."
         />
         <ROICalculator />
       </section>
       <Industries />
+      <SelectedWork />
       <CTA />
     </>
   );
@@ -565,11 +480,7 @@ function App() {
       </a>
       <Header />
       <main id="main" tabIndex={-1}>
-        <Suspense
-          fallback={
-            <div className="page-loading">Loading the next experience…</div>
-          }
-        >
+        <Suspense fallback={<div className="page-loading" />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Pages />} />
