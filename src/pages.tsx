@@ -1,7 +1,13 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { Link, Routes, Route, useSearchParams } from "react-router-dom";
+import { useState, type ReactNode } from "react";
 import {
-  ArrowUpRight,
+  Link,
+  Navigate,
+  Routes,
+  Route,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import {
   ArrowRight,
   ArrowLeft,
   Check,
@@ -21,14 +27,12 @@ import {
 } from "lucide-react";
 import {
   Button,
-  Reveal,
   SectionHead,
   CTA,
   Comparison,
   Workflow,
   AssistantDemo,
   ROICalculator,
-  Industries,
   FAQ,
 } from "./components";
 import { projects } from "./data";
@@ -197,7 +201,7 @@ function WebDesign() {
           {[projects[0], projects[1], projects[3]].map((p) => (
             <Link
               key={p.name}
-              to={`/work?project=${p.name}`}
+              to={`/work/${p.slug}`}
               className="project-card"
             >
               <ProjectArt name={p.name} art={p.art} />
@@ -437,22 +441,33 @@ function Process({ steps }: { steps: string[][] }) {
     </ol>
   );
 }
+const previewCopy: Record<string, [string[], string]> = {
+  AURA: [
+    ["Garden room", "Terrace suite", "Entire retreat"],
+    "Light-filled rooms and a reservation path that takes three taps.",
+  ],
+  FORME: [
+    ["City apartment", "Garden residence", "Skyline penthouse"],
+    "Explore the space, then request a viewing with your preferences attached.",
+  ],
+  APEX: [
+    ["Signature detail", "Paint correction", "Ceramic protection"],
+    "Pick a service, see what it includes, and book a consultation.",
+  ],
+  STILL: [
+    ["Movement class", "Private session", "Restorative practice"],
+    "Choose a session type and request a time that suits you.",
+  ],
+};
 function ProjectPreview({ project }: { project: (typeof projects)[number] }) {
-  const options =
-    project.name === "AURA"
-      ? ["Garden room", "Terrace suite", "Entire retreat"]
-      : project.name === "FORME"
-        ? ["City apartment", "Garden residence", "Skyline penthouse"]
-        : project.name === "APEX"
-          ? ["Signature detail", "Paint correction", "Ceramic protection"]
-          : ["Movement class", "Private session", "Restorative practice"];
+  const [options, text] = previewCopy[project.name] ?? previewCopy.STILL;
   const [selected, setSelected] = useState(options[0]),
     [prepared, setPrepared] = useState(false);
   if (project.type === "AI Automation")
     return project.name === "LUMEN" ? <AssistantDemo /> : <Workflow />;
   return (
     <>
-      <div className="preview-options" aria-label="Concept options">
+      <div className="preview-options" role="group" aria-label="Options">
         {options.map((o) => (
           <button
             key={o}
@@ -468,111 +483,108 @@ function ProjectPreview({ project }: { project: (typeof projects)[number] }) {
       </div>
       <div className="preview-result" aria-live="polite">
         <h3>{selected}</h3>
-        <p>
-          {project.name === "AURA"
-            ? "A considered stay, with light-filled spaces and room to slow down."
-            : project.name === "FORME"
-              ? "Explore a distinctive space, then prepare a viewing request with your preferences."
-              : project.name === "APEX"
-                ? "A carefully scoped service journey, from initial interest to an informed consultation."
-                : "An intentional session, shaped around the way you want to feel."}
-        </p>
-        <button className="button" onClick={() => setPrepared(true)}>
-          {prepared ? "Demo Request Prepared" : "Prepare a Demo Request"}
-          {prepared ? <Check size={15} /> : <ArrowRight size={15} />}
+        <p>{text}</p>
+        <button
+          className="button"
+          onClick={() => setPrepared(true)}
+          disabled={prepared}
+        >
+          {prepared ? "Request ready" : "Send a sample request"}
+          {prepared ? (
+            <Check size={16} aria-hidden="true" />
+          ) : (
+            <ArrowRight size={16} aria-hidden="true" />
+          )}
         </button>
         {prepared && (
           <p className="success-text">
-            Your sample selection: {selected}. No real booking, viewing or
-            service request was sent.
+            Sample request for “{selected}” ready. Nothing was actually sent.
           </p>
         )}
       </div>
       {project.name === "STILL" && (
         <div className="detail-demo">
-          <h3>The connected scheduling journey</h3>
-          <p>Explore what could happen after a customer gets in touch.</p>
+          <h3>What happens after they book</h3>
+          <p>The same request, followed through scheduling and follow-up.</p>
           <Workflow />
         </div>
       )}
     </>
   );
 }
+function ProjectDetail() {
+  const { slug } = useParams();
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return <NotFound />;
+  return (
+    <>
+      <section className="wrap section project-detail">
+        <Link to="/work" className="back-link">
+          <ArrowLeft size={16} aria-hidden="true" /> All concepts
+        </Link>
+        <div className="detail-heading">
+          <div>
+            <h1>{project.title}</h1>
+            <p>{project.description}</p>
+          </div>
+          <span className="discipline-pill">
+            {project.industry} · {project.type}
+          </span>
+        </div>
+        <div className="detail-visual">
+          <ProjectArt art={project.art} name={project.name} />
+        </div>
+        <div className="detail-demo">
+          <h2>
+            {project.name === "LUMEN"
+              ? "Try the appointment assistant."
+              : project.name === "FIELD"
+                ? "Follow a missed call to a booked job."
+                : "Try the main journey."}
+          </h2>
+          <p>
+            {project.name} is an original concept, not a client project. The
+            demo uses sample data and never sends or books anything.
+          </p>
+          <ProjectPreview key={project.slug} project={project} />
+        </div>
+      </section>
+      <CTA />
+    </>
+  );
+}
+const filters = ["All", "3D Websites", "AI Automation", "Combined Solutions"];
+const filterLabels: Record<string, string> = {
+  All: "All",
+  "3D Websites": "Websites",
+  "AI Automation": "Automation",
+  "Combined Solutions": "Both",
+};
 function Work() {
   const [params, setParams] = useSearchParams();
-  const [filter, setFilter] = useState(params.get("filter") || "All Projects");
-  const project = projects.find((p) => p.name === params.get("project"));
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [project]);
-  if (project)
-    return (
-      <>
-        <section className="wrap section project-detail">
-          <Link to="/work" className="back-link">
-            <ArrowLeft size={15} /> All concepts
-          </Link>
-          <div className="detail-heading">
-            <div>
-              <h1>{project.title}</h1>
-              <p>{project.description}</p>
-            </div>
-            <span className="discipline-pill">{project.type}</span>
-          </div>
-          <div className="detail-visual">
-            <ProjectArt art={project.art} name={project.name} />
-          </div>
-          <div className="detail-demo">
-            <h2>
-              {project.name === "LUMEN"
-                ? "Try the appointment assistant"
-                : project.name === "FIELD"
-                  ? "Explore the lead follow-up workflow"
-                  : "Make the next step your own."}
-            </h2>
-            <p>
-              This is an original NEXUS concept, not a commissioned client
-              project. Interactions use sample data and do not create real
-              bookings or send messages.
-            </p>
-            <ProjectPreview key={project.name} project={project} />
-          </div>
-        </section>
-        <CTA />
-      </>
-    );
+  const legacy = projects.find((p) => p.name === params.get("project"));
+  if (legacy) return <Navigate to={`/work/${legacy.slug}`} replace />;
+  const filter = filters.includes(params.get("filter") ?? "")
+    ? params.get("filter")!
+    : "All";
   return (
     <>
       <PageHero
-        title={
-          <>
-            Ideas made interactive.
-            <br />
-            <span className="muted">Systems made intelligent.</span>
-          </>
-        }
-        text="Six original explorations of better digital experiences. Choose a discipline, explore a concept and try the interaction."
+        title="Concept projects"
+        text="Six original concepts, each with a working demo. They show how we approach a brief; none of them are client work."
       />
-      <section className="wrap section">
-        <div className="filter-tabs" aria-label="Filter projects">
-          {[
-            "All Projects",
-            "3D Websites",
-            "AI Automation",
-            "Combined Solutions",
-          ].map((f) => (
+      <section className="wrap section work-section">
+        <div className="filter-tabs" role="group" aria-label="Filter projects">
+          {filters.map((f) => (
             <button
               key={f}
               aria-pressed={filter === f}
-              onClick={() => {
-                setFilter(f);
-                setParams(f === "All Projects" ? {} : { filter: f });
-              }}
+              onClick={() => setParams(f === "All" ? {} : { filter: f })}
             >
-              {f}{" "}
+              {filterLabels[f]}
               <span>
-                {f === "All Projects"
-                  ? 6
+                {f === "All"
+                  ? projects.length
                   : projects.filter((p) => p.type === f).length}
               </span>
             </button>
@@ -580,21 +592,20 @@ function Work() {
         </div>
         <div className="portfolio-grid">
           {projects
-            .filter((p) => filter === "All Projects" || p.type === filter)
+            .filter((p) => filter === "All" || p.type === filter)
             .map((p) => (
-              <Reveal key={p.name}>
-                <Link className="project-card" to={`/work?project=${p.name}`}>
-                  <ProjectArt art={p.art} name={p.name} />
-                  <div className="project-info">
-                    <div>
-                      <span className="tiny">{p.industry} / CONCEPT</span>
-                      <h3>{p.label}</h3>
-                    </div>
-                    <ArrowUpRight size={22} />
-                  </div>
-                  <p>{p.description}</p>
-                </Link>
-              </Reveal>
+              <Link
+                className="project-card"
+                to={`/work/${p.slug}`}
+                key={p.slug}
+              >
+                <ProjectArt art={p.art} name={p.name} />
+                <div className="project-info">
+                  <h3>{p.label}</h3>
+                  <span>{p.industry}</span>
+                </div>
+                <p>{p.description}</p>
+              </Link>
             ))}
         </div>
       </section>
@@ -604,48 +615,45 @@ function Work() {
 }
 const tiers = [
   {
-    name: "Web Transformation",
-    type: "ONE-TIME PROJECT",
+    name: "Website",
+    type: "One-time project",
     icon: Layers,
-    copy: "A distinctive digital presence, from the first idea to a considered launch.",
+    copy: "A custom site, from first conversation to launch.",
     items: [
-      "Discovery & creative direction",
-      "Custom UX/UI design",
-      "Responsive development",
-      "Technical SEO foundations",
-      "Testing & launch support",
+      "Discovery and direction",
+      "Custom design for every page",
+      "Mobile-first development",
+      "Search basics: titles, speed, structure",
+      "Testing and launch support",
     ],
-    cta: "Discuss Your Website",
     service: "Web Design",
   },
   {
-    name: "Automation Engine",
-    type: "ONGOING SERVICE",
+    name: "Automation",
+    type: "Setup, then monthly",
     icon: WorkflowIcon,
-    copy: "Connected workflows that reduce repetitive work and support your team.",
+    copy: "Workflows that answer, qualify and book, maintained over time.",
     items: [
-      "Workflow discovery & mapping",
-      "Automation setup",
-      "Scoped tool integrations",
-      "Monitoring & exception handling",
-      "Ongoing optimization",
+      "Map how inquiries flow today",
+      "Build and connect the automation",
+      "Integrations with your tools",
+      "Monitoring and fixes",
+      "Ongoing improvements",
     ],
-    cta: "Automate My Business",
     service: "AI Automation",
   },
   {
-    name: "Complete Growth Suite",
-    type: "PROJECT + ONGOING PARTNERSHIP",
+    name: "Website + automation",
+    type: "Project, then monthly",
     icon: Zap,
-    copy: "A memorable front door. A smarter operation. One connected customer journey.",
+    copy: "Both, designed together as one customer journey.",
     items: [
-      "Both core service offerings",
-      "Integrated lead capture",
-      "CRM & scheduling workflows",
-      "Measurement & analytics setup",
-      "Continuous optimization",
+      "Everything in both",
+      "Inquiry forms wired to the automation",
+      "CRM and booking set up end to end",
+      "Analytics on what converts",
+      "Ongoing improvements",
     ],
-    cta: "Build My Growth System",
     service: "Complete Growth Suite",
   },
 ];
@@ -653,34 +661,26 @@ function Pricing() {
   return (
     <>
       <PageHero
-        title={
-          <>
-            Flexible partnerships.
-            <br />
-            <span className="muted">Serious digital ambition.</span>
-          </>
-        }
-        text="Choose the kind of change your business needs. We scope the right solution together, with clear deliverables and a custom proposal."
+        title="Pricing"
+        text="Every business is different, so every project is quoted after a short call. Here’s what each option includes."
       />
-      <section className="wrap section">
+      <section className="wrap section pricing-section">
         <div className="pricing-grid">
           {tiers.map((t, i) => (
-            <Reveal
+            <div
               key={t.name}
               className={`price-card ${i === 2 ? "featured" : ""}`}
             >
-              {i === 2 && (
-                <span className="price-badge">MOST COMPREHENSIVE</span>
-              )}
-              <t.icon size={26} />
+              {i === 2 && <span className="price-badge">Best value</span>}
+              <t.icon size={22} aria-hidden="true" />
               <h3>{t.name}</h3>
               <p>{t.copy}</p>
-              <div className="quote">Custom Quote</div>
+              <div className="quote">Custom quote</div>
               <span className="tiny">{t.type}</span>
               <ul className="check-list">
                 {t.items.map((s) => (
                   <li key={s}>
-                    <Check size={15} />
+                    <Check size={16} aria-hidden="true" />
                     {s}
                   </li>
                 ))}
@@ -689,60 +689,15 @@ function Pricing() {
                 secondary={i !== 2}
                 to={`/contact?service=${encodeURIComponent(t.service)}`}
               >
-                {t.cta}
+                Get a quote
               </Button>
-            </Reveal>
+            </div>
           ))}
         </div>
-        <div className="table-scroll">
-          <table>
-            <caption className="sr-only">
-              Compare NEXUS engagement models
-            </caption>
-            <thead>
-              <tr>
-                <th>Included in the partnership</th>
-                <th>Web Transformation</th>
-                <th>Automation Engine</th>
-                <th>Complete Growth Suite</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["Strategy & discovery", "Included", "Included", "Included"],
-                ["Custom website design", "Included", "—", "Included"],
-                [
-                  "Workflow automation",
-                  "Scoped separately",
-                  "Included",
-                  "Included",
-                ],
-                [
-                  "Tool integrations",
-                  "Website scope",
-                  "Automation scope",
-                  "Combined scope",
-                ],
-                ["Ongoing optimization", "Optional", "Included", "Included"],
-                [
-                  "Hosting & provider costs",
-                  "Scoped in proposal",
-                  "Scoped in proposal",
-                  "Scoped in proposal",
-                ],
-              ].map((row) => (
-                <tr key={row[0]}>
-                  {row.map((cell, i) => (
-                    <td key={i}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="disclaimer">
-          Third-party subscriptions, usage charges, support terms and ownership
-          arrangements are defined in your proposal.
+        <p className="disclaimer pricing-note">
+          Third-party costs (hosting, AI usage, SMS, subscriptions), support
+          terms and ownership are set out in your proposal before any work
+          starts.
         </p>
       </section>
       <FAQ />
@@ -754,85 +709,72 @@ function About() {
   return (
     <>
       <PageHero
-        title={
-          <>
-            Better experiences.
-            <br />
-            Smarter systems.
-            <br />
-            <span className="accent">Stronger together.</span>
-          </>
-        }
-        text="NEXUS brings creative web design, AI-assisted engineering and business process automation into one considered approach."
+        title="A good-looking website is only half the job."
+        text="NEXUS designs websites and builds the automation behind them, so the people your site brings in actually get looked after."
       />
       <section className="wrap section about-statement">
-        <div>
-          <h2>
-            There shouldn’t be a gap between how good your business looks and
-            how well it works.
-          </h2>
-          <p>
-            A remarkable website earns attention. A useful system helps turn
-            that attention into a better customer experience. We believe the
-            best digital work connects both.
-          </p>
-          <p>
-            That means starting with your business, asking useful questions and
-            choosing technology with purpose. It means being ambitious about the
-            experience and honest about what it takes to build it.
-          </p>
-        </div>
+        <h2>Why both?</h2>
+        <p>
+          A great website gets attention. But if an inquiry then waits until
+          tomorrow for a reply, that attention is wasted. Most agencies do one
+          side or the other; we design them together.
+        </p>
+        <p>
+          We start with how your business actually works, ask a lot of
+          questions, and only then choose the tools. We’re ambitious about
+          the result and honest about what it takes.
+        </p>
       </section>
       <section className="wrap section">
+        <SectionHead title="How we work." />
         <div className="feature-grid">
           {[
             [
-              "Clarity before complexity",
-              "We find the right problem before choosing the tool. Every feature should earn its place.",
+              "The problem before the tool",
+              "We find out where leads and time are lost before suggesting anything to build.",
             ],
             [
-              "Craft with a purpose",
-              "Visual detail and interaction should help people understand, explore and take action.",
+              "Design with a job to do",
+              "Every visual choice should help someone understand, decide or act.",
             ],
             [
-              "People in the loop",
-              "We design systems with clear ownership, useful handoffs and thoughtful human review.",
+              "People stay in the loop",
+              "Automation handles the routine. Decisions that need judgment go to your team.",
             ],
-          ].map(([t, d], i) => (
-            <Reveal className="feature" key={t}>
-              <small>0{i + 1} / OUR PRINCIPLES</small>
+          ].map(([t, d]) => (
+            <div className="feature" key={t}>
               <h3>{t}</h3>
               <p>{d}</p>
-            </Reveal>
+            </div>
           ))}
         </div>
       </section>
       <section className="wrap section">
         <SectionHead
-          title="A thoughtful process. A shared direction."
-          text="From the first conversation to the next improvement, you know what we’re building and why."
+          title="From first call to launch."
+          text="You know what we’re building, why, and what comes next."
         />
         <Process
           steps={[
             [
-              "Discover & define",
-              "Map your audience, processes and goals. Agree priorities, scope and success measures.",
+              "Discover",
+              "Map your customers, processes and goals. Agree scope and how we’ll measure success.",
             ],
             [
-              "Design & prototype",
-              "Create the visual direction and test key journeys before development.",
+              "Design",
+              "Set the visual direction and test the key journeys before building.",
             ],
             [
-              "Build & connect",
-              "Develop the experience and integrate the agreed systems, with clear boundaries.",
+              "Build",
+              "Develop the site and connect the agreed tools, with clear boundaries.",
             ],
             [
-              "Test & launch",
-              "Check devices, interactions and failure states. Document the handover.",
+              "Test and launch",
+              "Check every device and failure case, then hand over with documentation.",
             ],
             [
-              "Learn & improve",
-              "Use feedback and agreed measurement to guide the next iteration.",
+              "Improve",
+              "Use real results to decide what to change next.",
             ],
           ]}
         />
@@ -845,36 +787,30 @@ function ROIPage() {
   return (
     <>
       <PageHero
-        title={
-          <>
-            What could slow
-            <br />
-            follow-ups be <span className="accent">costing you?</span>
-          </>
-        }
-        text="Turn assumptions into a useful conversation. Adjust your numbers to explore recovered-lead revenue and administrative hours saved."
+        title="What are slow replies costing you?"
+        text="Enter your own numbers to estimate the revenue you could win back and the admin time you could save."
       />
-      <section className="wrap section">
+      <section className="wrap section roi-section">
         <ROICalculator />
       </section>
       <section className="wrap section">
+        <SectionHead title="Reading the result." />
         <div className="feature-grid">
           {[
             [
-              "Start with real inputs",
-              "Use your own lead volume, customer value and conversion data wherever possible.",
+              "Use your real numbers",
+              "Your actual inquiry volume, customer value and conversion rate give the most useful estimate.",
             ],
             [
-              "Challenge the assumptions",
-              "Recovery and time-saving rates depend on the process, implementation and team adoption. Try a conservative scenario too.",
+              "Try a cautious version",
+              "Win-back and time-saving rates depend on your process and your team. Run a conservative scenario too.",
             ],
             [
-              "Consider the full picture",
-              "These estimates exclude implementation costs, subscriptions, delivery costs and profit margins. Discovery helps assess whether an investment makes sense.",
+              "It’s not profit",
+              "The estimate leaves out what the work costs, subscriptions and margins. A first call helps decide if it’s worth it.",
             ],
-          ].map(([t, d], i) => (
+          ].map(([t, d]) => (
             <div className="feature" key={t}>
-              <small>0{i + 1} / READ YOUR RESULTS</small>
               <h3>{t}</h3>
               <p>{d}</p>
             </div>
@@ -885,16 +821,12 @@ function ROIPage() {
     </>
   );
 }
-function NotFound() {
+export function NotFound() {
   return (
     <section className="wrap not-found">
-      <h1>
-        Let’s get you
-        <br />
-        back on track.
-      </h1>
-      <p>That page isn’t part of this experience.</p>
-      <Button to="/">Return to NEXUS</Button>
+      <h1>This page doesn’t exist.</h1>
+      <p>The link may be old, or the address mistyped.</p>
+      <Button to="/">Back to the homepage</Button>
     </section>
   );
 }
@@ -904,6 +836,7 @@ export default function Pages() {
       <Route path="/services/web-design" element={<WebDesign />} />
       <Route path="/services/automation" element={<Automation />} />
       <Route path="/work" element={<Work />} />
+      <Route path="/work/:slug" element={<ProjectDetail />} />
       <Route path="/roi-calculator" element={<ROIPage />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/about" element={<About />} />

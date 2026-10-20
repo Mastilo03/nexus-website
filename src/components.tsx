@@ -45,15 +45,6 @@ export function Button({
     </Link>
   );
 }
-export function Reveal({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return <div className={className}>{children}</div>;
-}
 export function SectionHead({
   title,
   text,
@@ -127,7 +118,7 @@ export function Comparison() {
               ? "An intimate retreat. An extraordinary feeling."
               : "We offer rooms, breakfast, and a swimming pool."}
           </p>
-          <Link to="/work?project=AURA">
+          <Link to="/work/aura">
             {after ? "Discover the escape" : "View our rooms"}{" "}
             <ArrowUpRight size={14} aria-hidden="true" />
           </Link>

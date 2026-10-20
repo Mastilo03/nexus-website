@@ -15,7 +15,7 @@ export const contactSchema = z.object({
   challenge: z
     .string()
     .trim()
-    .min(20, "Tell us a little more—at least 20 characters.")
+    .min(20, "Tell us a little more (at least 20 characters).")
     .max(3000, "Please keep this under 3,000 characters."),
   website: z.union([
     z.literal(""),
@@ -92,7 +92,7 @@ export default function Contact() {
   });
   const download = (data: Inquiry) => {
     const brief = [
-      "NEXUS — PROJECT INQUIRY",
+      "NEXUS project inquiry",
       "",
       `Name: ${data.name}`,
       `Email: ${data.email}`,
@@ -179,14 +179,10 @@ export default function Contact() {
   return (
     <>
       <section className="wrap page-hero">
-        <h1>
-          Your next stage of growth
-          <br />
-          <span className="accent">starts here.</span>
-        </h1>
+        <h1>Tell us about your business.</h1>
         <p>
-          Tell us what you’re building. We’ll explore how better digital
-          experiences and smarter workflows could help your business.
+          A few details about where you are now and what you’d like to change.
+          We’ll come back with honest thoughts on whether we can help.
         </p>
       </section>
       <section className="wrap section contact-layout">
@@ -197,10 +193,8 @@ export default function Contact() {
         >
           {!endpoint && (
             <div className="form-status">
-              <b>Prepare your project brief.</b>
-              <br />
-              Online inquiries are not open yet. You can create and download a
-              brief below; nothing will be sent.
+              <b>Online inquiries open soon.</b> Fill in the form to download
+              your brief as a file. Nothing is sent yet.
             </div>
           )}
           {field(
@@ -351,8 +345,8 @@ export default function Contact() {
               {isSubmitting
                 ? "Sending your inquiry…"
                 : endpoint
-                  ? "Send Your Inquiry"
-                  : "Download My Project Brief"}
+                  ? "Send inquiry"
+                  : "Download my brief"}
               {endpoint ? <Send size={16} /> : <Download size={16} />}
             </button>
             {endpoint && (
@@ -372,18 +366,12 @@ export default function Contact() {
           )}
         </form>
         <aside className="contact-aside">
-          <h3>
-            Big ambition.
-            <br />A simple first step.
-          </h3>
-          <p>
-            A strategy call is a chance to understand your business and see
-            whether we’re the right fit.
-          </p>
+          <h3>What the first call looks like</h3>
+          <p>About 30 minutes, free, and no obligation either way.</p>
           <ol>
-            <li>Talk through your goals and challenges.</li>
-            <li>Explore the most useful opportunities.</li>
-            <li>Define a sensible next step together.</li>
+            <li>You walk us through your goals and what isn’t working.</li>
+            <li>We point out where leads or time are being lost.</li>
+            <li>We agree a sensible next step, if there is one.</li>
           </ol>
           {booking ? (
             <a
@@ -392,26 +380,22 @@ export default function Contact() {
               target="_blank"
               rel="noreferrer"
             >
-              Choose a Time <CalendarDays size={16} />
+              Choose a time <CalendarDays size={16} aria-hidden="true" />
             </a>
           ) : (
             <div className="booking-note">
-              <h3>Start with your brief.</h3>
+              <h3>Online booking is coming soon.</h3>
               <p>
-                Calendar booking is not available yet. Capture your priorities
-                in the form so your first conversation can start with the right
-                context.
+                For now, fill in the form. It saves your brief so the first
+                conversation starts with the right context.
               </p>
               {email && (
                 <a className="inline-link" href={`mailto:${email}`}>
-                  Email the Studio <ArrowUpRight size={16} />
+                  Email us <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
               )}
             </div>
           )}
-          <p className="disclaimer">
-            No obligation. Just a thoughtful conversation about what comes next.
-          </p>
         </aside>
       </section>
     </>

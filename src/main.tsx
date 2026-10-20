@@ -431,7 +431,7 @@ function SelectedWork() {
           <Link
             key={p.name}
             className="project-card"
-            to={`/work?project=${p.name}`}
+            to={`/work/${p.slug}`}
           >
             <ProjectArt art={p.art} name={p.name} />
             <div className="project-info">
