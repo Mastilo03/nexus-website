@@ -17,6 +17,7 @@ import {
   Database,
   ShieldCheck,
   Headphones,
+  Reply,
 } from "lucide-react";
 import {
   Button,
@@ -53,47 +54,47 @@ function PageHero({
 }
 function ServiceSwitch() {
   return (
-    <div className="wrap service-switch">
+    <nav className="wrap service-switch" aria-label="Services">
       <Link to="/services/web-design">
-        <span className="service-dot violet" /> Immersive Web Design
+        <span className="service-dot" /> Web design
       </Link>
-      <span>/</span>
+      <span aria-hidden="true">/</span>
       <Link to="/services/automation">
-        <span className="service-dot emerald" /> AI Automation
+        <span className="service-dot" /> Automation
       </Link>
-    </div>
+    </nav>
   );
 }
 const webFeatures = [
   {
     icon: Layers,
-    title: "A distinctive visual world",
-    text: "A cohesive art direction, custom layouts and a brand story that makes your business unmistakable.",
+    title: "Designed for your business",
+    text: "A look and a story that fit you, not a template with your logo swapped in.",
   },
   {
     icon: MousePointer2,
-    title: "Interaction with purpose",
-    text: "Selective 3D, considered motion and intuitive interactions that help visitors explore.",
+    title: "One obvious next step",
+    text: "Every page leads to the action you want: a call, a booking or an inquiry.",
   },
   {
     icon: Smartphone,
-    title: "Every screen, considered",
-    text: "Responsive layouts, accessible navigation and lightweight visual fallbacks for a confident mobile experience.",
-  },
-  {
-    icon: ArrowUpRight,
-    title: "A clear next step",
-    text: "Customer journeys shaped around real decisions, with focused calls to action and useful inquiry flows.",
+    title: "Built for phones first",
+    text: "Most of your visitors are on a phone. The site is designed there, then scaled up.",
   },
   {
     icon: Globe,
-    title: "A strong technical foundation",
-    text: "Fast assets, semantic content, page metadata and sensible loading strategies built into the experience.",
+    title: "Fast and findable",
+    text: "Quick to load, with clean page titles and descriptions so search engines understand it.",
   },
   {
     icon: BarChart3,
-    title: "Connected to your business",
-    text: "Forms, booking journeys and analytics integrations scoped around the systems you actually use.",
+    title: "Connected to your tools",
+    text: "Forms, booking and analytics wired to the systems you already use.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Yours to keep",
+    text: "Ownership, hosting and handover are agreed in writing before work starts.",
   },
 ];
 function WebDesign() {
@@ -103,31 +104,26 @@ function WebDesign() {
       <section className="wrap studio-hero">
         <div className="studio-heading">
           <h1>
-            Don’t just <br />
-            show up.
-            <br />
-            <span>Be unforgettable.</span>
+            Websites that turn visits <span>into inquiries.</span>
           </h1>
           <p>
-            Immersive websites for brands with something to say. Strategy,
-            design and development—crafted into one distinctive experience.
+            Custom sites for service businesses: clear about what you do,
+            quick on a phone, and built around one next step.
           </p>
           <div className="hero-buttons">
-            <Button to="/contact?service=Web%20Design">
-              Discuss Your Website
-            </Button>
-            <a className="inline-link" href="#web-concepts">
-              Explore the work <ArrowRight size={15} />
+            <Button to="/contact?service=Web%20Design">Get in touch</Button>
+            <a className="button secondary" href="#web-concepts">
+              See the concepts
             </a>
           </div>
         </div>
-        <div className="studio-composition">
+        <div className="studio-composition" aria-hidden="true">
           <div className="studio-browser">
             <div className="browser-chrome">
               <i />
               <i />
               <i />
-              <span>AURA / DIGITAL EXPERIENCE CONCEPT</span>
+              <span>aura-hotel.example</span>
             </div>
             <ProjectArt art="hotel" name="AURA" />
           </div>
@@ -139,70 +135,34 @@ function WebDesign() {
               <br />
               <em>state of mind.</em>
             </p>
-            <small>EXPLORE THE ESCAPE ↗</small>
+            <small>Reserve a stay</small>
           </div>
-          <div className="studio-caption">
-            <span>ART DIRECTION × INTERACTION × ENGINEERING</span>
-            <span>DESIGNED BY NEXUS</span>
-          </div>
-          <div className="studio-tag">
-            <MousePointer2 size={14} /> Every detail has a purpose.
-          </div>
-        </div>
-      </section>
-      <div className="wrap service-principles">
-        <span>Distinctive by design.</span>
-        <span>Intuitive by nature.</span>
-        <span>Built to perform.</span>
-      </div>
-      <section className="wrap section service-intro">
-        <div>
-          <h2>
-            Your website is
-            <br />
-            your most important
-            <br />
-            <span className="service-accent">brand experience.</span>
-          </h2>
-        </div>
-        <div>
-          <p>
-            Before a conversation, before a visit, before a purchase—there is a
-            feeling. Your website should make people understand who you are, why
-            you matter and what to do next.
-          </p>
-          <p>
-            We connect visual storytelling with conversion-focused UX. The
-            result is a digital presence that feels like your business at its
-            best, from the first scroll to the final inquiry.
-          </p>
         </div>
       </section>
       <section className="studio-showcase">
         <div className="wrap section">
           <SectionHead
-            title="Same business. A different feeling."
-            text="Switch between a conventional hotel page and an expressive digital concept. See what considered design changes."
+            title="Same hotel. A different first impression."
+            text="Switch between a typical hotel page and a redesigned one. The facts are the same; what changes is whether you want to stay."
           />
           <div className="wide-comparison">
             <Comparison />
             <div className="design-notes">
               {[
                 [
-                  "Make the story tangible.",
-                  "Atmosphere, composition and typography communicate a place before a word is read.",
+                  "Show, then tell.",
+                  "Imagery and layout set the mood before anyone reads a word.",
                 ],
                 [
-                  "Give every detail a role.",
-                  "Navigation and interaction guide the journey without competing for attention.",
+                  "Less, but clearer.",
+                  "Navigation and copy guide the visitor instead of competing for attention.",
                 ],
                 [
-                  "Turn interest into intent.",
-                  "A focused next step connects the emotional experience to a practical action.",
+                  "One next step.",
+                  "Every page ends in a single, obvious action: here, reserving a stay.",
                 ],
-              ].map(([t, d], i) => (
+              ].map(([t, d]) => (
                 <div key={t}>
-                  <span>0{i + 1}</span>
                   <h3>{t}</h3>
                   <p>{d}</p>
                 </div>
@@ -212,28 +172,26 @@ function WebDesign() {
         </div>
       </section>
       <section className="wrap section">
-        <SectionHead
-          title="Creative freedom. Technical precision."
-        />
+        <SectionHead title="What every site includes." />
         <div className="feature-grid">
           {webFeatures.map((f) => (
-            <Reveal className="feature" key={f.title}>
-              <f.icon size={25} />
+            <div className="feature" key={f.title}>
+              <f.icon size={22} aria-hidden="true" />
               <h3>{f.title}</h3>
               <p>{f.text}</p>
-            </Reveal>
+            </div>
           ))}
         </div>
       </section>
       <section className="wrap section" id="web-concepts">
         <div className="section-title-row">
           <SectionHead
-            title="Built to feel different."
-            text="Original concepts, created to demonstrate the experience—not to claim client results."
+            title="Concept sites"
+            text="Original concepts that show the approach. They aren’t client projects."
           />
-          <Button to="/work" secondary>
-            All Concepts
-          </Button>
+          <Link className="inline-link" to="/work">
+            All concepts <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         </div>
         <div className="web-work-grid">
           {[projects[0], projects[1], projects[3]].map((p) => (
@@ -244,11 +202,8 @@ function WebDesign() {
             >
               <ProjectArt name={p.name} art={p.art} />
               <div className="project-info">
-                <div>
-                  <small>{p.industry} / CONCEPT</small>
-                  <h3>{p.label}</h3>
-                </div>
-                <ArrowUpRight />
+                <h3>{p.label}</h3>
+                <span>{p.industry}</span>
               </div>
             </Link>
           ))}
@@ -256,28 +211,26 @@ function WebDesign() {
       </section>
       <section className="wrap section">
         <SectionHead
-          title="Built together. Step by step."
+          title="How a project runs."
+          text="You see the direction before anything is built, and you know what’s next at every step."
         />
         <Process
           steps={[
-            ["Discover", "Understand your brand, audience and goals."],
-            ["Direct", "Define the visual world and customer journey."],
-            [
-              "Prototype",
-              "Explore key pages and interactions before the build.",
-            ],
-            ["Develop", "Engineer, integrate and test across devices."],
-            ["Launch", "Prepare the handover and agree the next chapter."],
+            ["Discover", "We learn your business, customers and goals."],
+            ["Direct", "We agree the look, the pages and the main journey."],
+            ["Prototype", "You click through key pages before the build."],
+            ["Build", "We develop, connect your tools and test on real devices."],
+            ["Launch", "We go live, hand over and agree what comes next."],
           ]}
         />
       </section>
       <div className="wrap cross-service">
         <div>
-          <small>WHAT HAPPENS AFTER THE CLICK?</small>
-          <h3>Connect your website to a smarter operation.</h3>
+          <small>After someone gets in touch</small>
+          <h3>Make sure every inquiry gets a fast reply.</h3>
         </div>
         <Button to="/services/automation" secondary>
-          Explore AI Automation
+          See automation
         </Button>
       </div>
       <FAQ />
@@ -288,33 +241,33 @@ function WebDesign() {
 const automationFeatures = [
   {
     icon: MessageSquare,
-    title: "Conversations that move forward",
-    text: "AI chat and voice assistants handle approved FAQs, capture context and route complex questions to your team.",
+    title: "Website and chat assistants",
+    text: "Answer common questions, collect the details your team needs, and hand anything complex to a person.",
   },
   {
     icon: CalendarDays,
-    title: "Less scheduling back-and-forth",
-    text: "Qualification, appointment requests and reminders connect your customer journey to your calendar.",
+    title: "Booking without the back-and-forth",
+    text: "Offer real open times from your calendar, then confirm and send reminders.",
   },
   {
     icon: Database,
-    title: "A complete customer picture",
-    text: "CRM synchronization and consistent data capture help keep follow-ups informed and organized.",
+    title: "CRM that keeps itself up to date",
+    text: "Every inquiry lands in your CRM with its history, so nobody starts from zero.",
   },
   {
     icon: Headphones,
-    title: "Missed calls. New possibilities.",
-    text: "Consent-based SMS, WhatsApp and email workflows help turn a missed conversation into a useful next step.",
+    title: "Missed-call follow-up",
+    text: "A missed call gets a text or email with a way to book, with the customer’s consent.",
   },
   {
-    icon: ArrowRight,
-    title: "Follow-up with intention",
-    text: "Review requests, reactivation sequences and helpful reminders are designed around relevant customer moments.",
+    icon: Reply,
+    title: "Follow-ups that go out on time",
+    text: "Quote reminders, review requests and check-ins sent when they’re useful.",
   },
   {
     icon: ShieldCheck,
     title: "Your team stays in control",
-    text: "Defined rules, review points, exception handling and ongoing monitoring keep responsibility clear.",
+    text: "Clear rules, review points and alerts when something needs a human.",
   },
 ];
 function Automation() {
@@ -324,108 +277,83 @@ function Automation() {
       <section className="wrap automation-hero">
         <div>
           <h1>
-            More momentum.
-            <br />
-            <span>Less manual work.</span>
+            Every inquiry answered, <span>even after hours.</span>
           </h1>
           <p>
-            From the first inquiry to the next appointment, connect the tasks
-            that slow your business down. Thoughtful automation. Clear human
-            control.
+            We connect your website, inbox, calendar and CRM so inquiries get
+            a reply, the right questions and a booking. Your team approves
+            what matters.
           </p>
           <div className="hero-buttons">
-            <Button to="/contact?service=AI%20Automation">
-              Automate My Business
-            </Button>
+            <Button to="/contact?service=AI%20Automation">Get in touch</Button>
             <a className="button secondary" href="#automation-demo">
-              Try the Demo <ArrowRight size={16} />
+              Try the demo
             </a>
           </div>
-          <div className="service-note">
-            <ShieldCheck size={15} /> Built around your process. Connected to
-            your tools.
-          </div>
         </div>
-        <div className="operations-visual">
+        <div className="operations-visual" aria-hidden="true">
           <div className="operations-header">
-            <span>
-              <span className="status-dot" /> A CONNECTED CUSTOMER JOURNEY
-            </span>
-            <small>SIMULATION</small>
+            <span>One inquiry, handled</span>
+            <small>Sample</small>
           </div>
           <div className="operation-source">
-            <MessageSquare size={22} />
+            <MessageSquare size={20} />
             <div>
-              <small>INCOMING INQUIRY</small>
-              <p>“Can I book an appointment?”</p>
+              <small>New inquiry, 22:14</small>
+              <p>“Can I book an appointment this week?”</p>
             </div>
           </div>
           <div className="operation-connector">
             <i />
-            <span>CAPTURE → UNDERSTAND → ACT</span>
+            <span>reply · qualify · book</span>
             <i />
           </div>
           <div className="operation-core">
             <div className="engine-icon">
-              <Zap size={30} />
+              <Zap />
             </div>
             <div>
-              <h3>NEXUS Engine</h3>
-              <p>The right action. At the right moment.</p>
+              <h3>Your automation</h3>
+              <p>Replies in minutes, using your rules and your calendar.</p>
             </div>
-            <span className="engine-state">PROCESSING</span>
           </div>
           <div className="operation-branches">
             <div>
-              <CalendarDays size={22} />
-              <b>Appointment</b>
-              <small>Request prepared</small>
+              <CalendarDays size={20} />
+              <b>Booked</b>
+              <small>Thursday 10:30</small>
             </div>
             <div>
-              <Database size={22} />
-              <b>Customer record</b>
-              <small>Context preserved</small>
+              <Database size={20} />
+              <b>In your CRM</b>
+              <small>With full history</small>
             </div>
             <div>
-              <Check size={22} />
-              <b>Your team</b>
-              <small>Ready for the next step</small>
+              <Check size={20} />
+              <b>Team notified</b>
+              <small>Ready for the morning</small>
             </div>
           </div>
-          <p className="disclaimer">
-            Illustrative workflow. No live integrations are connected.
-          </p>
         </div>
       </section>
-      <div className="wrap service-principles">
-        <span>Respond with context.</span>
-        <span>Reduce repetitive work.</span>
-        <span>Keep people in control.</span>
-      </div>
       <section className="wrap section">
         <div className="automation-problem">
-          <div>
-            <h2>
-              Good leads shouldn’t
-              <br />
-              get lost in
-              <br />
-              <span className="service-accent">busy days.</span>
-            </h2>
-          </div>
+          <h2>
+            Where good leads <span>get lost.</span>
+          </h2>
           <div className="problem-rows">
             {[
               [
                 "An inquiry arrives after hours.",
-                "An assistant can collect the essentials and prepare the next step.",
+                "By the time someone replies in the morning, the customer has booked elsewhere.",
               ],
               [
-                "Your team repeats the same task.",
-                "A defined workflow can keep routine work moving consistently.",
+                "Your team repeats the same answers.",
+                "Prices, availability, directions: hours a week spent on questions with known answers.",
               ],
               [
-                "Customer information lives everywhere.",
-                "Connected records can give the next person the context they need.",
+                "Details live in five places.",
+                "Inbox, phone, notes, spreadsheet. The next person to call the customer has no context.",
               ],
             ].map(([a, b]) => (
               <div key={a}>
@@ -439,59 +367,56 @@ function Automation() {
       <section className="automation-demo-section" id="automation-demo">
         <div className="wrap section">
           <SectionHead
-            title="Every step has a reason."
-            text="Play the customer journey or select a step to see its trigger, action and required data."
+            title="Follow one inquiry through the system."
+            text="Press play, or pick a step to see what triggers it and what it needs."
           />
           <Workflow />
         </div>
       </section>
       <section className="wrap section">
         <SectionHead
-          title="A conversation with a clear next step."
-          text="Try a scripted assistant for a dental practice, hotel or real estate agency. No API keys or personal details needed."
+          title="Now try it as the customer."
+          text="A scripted assistant for a dental practice, a hotel or an estate agent. No sign-up, no personal details."
         />
         <AssistantDemo />
       </section>
       <section className="wrap section">
-        <SectionHead
-          title="Small tasks. A bigger opportunity."
-        />
+        <SectionHead title="What we can automate." />
         <div className="feature-grid">
           {automationFeatures.map((f) => (
-            <Reveal className="feature" key={f.title}>
-              <f.icon size={25} />
+            <div className="feature" key={f.title}>
+              <f.icon size={22} aria-hidden="true" />
               <h3>{f.title}</h3>
               <p>{f.text}</p>
-            </Reveal>
+            </div>
           ))}
         </div>
         <div className="integration-band">
-          <span>Scoped around your stack</span>
+          <span>Works with your</span>
           <b>CRM</b>
           <i>+</i>
           <b>Calendar</b>
           <i>+</i>
-          <b>Email & SMS</b>
+          <b>Email and SMS</b>
           <i>+</i>
           <b>WhatsApp</b>
-          <span>Subject to provider access & permissions</span>
+          <span>Depends on each provider’s access and permissions</span>
         </div>
       </section>
       <section className="wrap section">
         <SectionHead
-          title="Find the opportunity in your workflow."
-          text="Model lead recovery and time savings using assumptions you can change."
+          title="Check the numbers for your business."
+          text="Change any input. The result is an estimate, not a promise."
         />
         <ROICalculator />
       </section>
-      <Industries />
       <div className="wrap cross-service">
         <div>
-          <small>GIVE YOUR SYSTEM A STRONGER FRONT DOOR</small>
-          <h3>Pair intelligent operations with a memorable website.</h3>
+          <small>Before someone gets in touch</small>
+          <h3>Give them a website that makes them want to.</h3>
         </div>
         <Button to="/services/web-design" secondary>
-          Explore Web Design
+          See web design
         </Button>
       </div>
       <FAQ />
@@ -501,15 +426,15 @@ function Automation() {
 }
 function Process({ steps }: { steps: string[][] }) {
   return (
-    <div className="process-list">
+    <ol className="process-list">
       {steps.map(([t, d], i) => (
-        <Reveal className="process-step" key={t}>
-          <span>0{i + 1}</span>
+        <li className="process-step" key={t}>
+          <span>{String(i + 1).padStart(2, "0")}</span>
           <h3>{t}</h3>
           <p>{d}</p>
-        </Reveal>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 function ProjectPreview({ project }: { project: (typeof projects)[number] }) {

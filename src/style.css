@@ -1515,7 +1515,7 @@ main > div > .cta:last-child {
 }
 .studio-hero h1,
 .automation-hero h1 {
-  font-size: var(--fs-h1);
+  font-size: clamp(2.25rem, 1.4rem + 3.2vw, 3.75rem);
   letter-spacing: -0.035em;
   line-height: 1.04;
 }
