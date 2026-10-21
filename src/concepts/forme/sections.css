@@ -1,2 +1,346 @@
-.forme-section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:50px;margin-bottom:70px}.forme-section-heading h2,.forme-neighbourhood h2,.forme-viewing h2{font-size:clamp(38px,4.8vw,68px);font-weight:400;letter-spacing:-.035em;line-height:1.05;margin:0}.forme-section-heading p{max-width:36ch;margin:0}.forme-residences{padding:120px 4%;background:#f2f3f1;color:#121417;scroll-margin-top:24px}.residence-configurator{display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:4%;align-items:center}.elevation .forme-mono{margin-bottom:30px}.elevation-stack{display:flex;flex-direction:column;align-items:center;gap:8px}.elevation-stack button{min-height:48px;display:flex;align-items:center;justify-content:space-between;border:1px solid #12141755;padding:12px;background:transparent;color:inherit;font:13px 'Geist Mono Variable',monospace;cursor:pointer}.elevation-stack button[aria-pressed=true]{background:#121417;color:#f2f3f1;border-color:#ff5b1f}.elevation p{font-size:13px;margin-top:30px}.residence-tabs{display:flex;gap:8px}.residence-tabs button{min-width:52px;min-height:44px;border:1px solid #12141755;background:transparent;color:inherit;font:14px 'Geist Mono Variable',monospace;cursor:pointer}.residence-tabs button[aria-pressed=true]{background:#121417;color:#f2f3f1}.residence-plan{width:100%;height:auto;margin-top:30px}.plan-note{color:#54595c}.residence-detail h3{font-size:32px;font-weight:400;margin:15px 0 28px;line-height:1.15}.residence-detail dl>div{border-bottom:1px solid #12141725;padding:13px 0;display:flex;gap:15px;justify-content:space-between}.residence-detail dt{font-size:14px}.residence-detail dd{font:14px 'Geist Mono Variable',monospace;margin:0;text-align:right}.residence-detail .forme-action{font-size:14px;padding:15px}.forme-materials{padding:130px 7%}.materials-grid{display:grid;grid-template-columns:1.3fr .9fr;column-gap:10%;row-gap:50px}.materials-grid figure{margin:0}.materials-grid figure:nth-child(even){margin-top:130px}.materials-grid img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block}.materials-grid h3{font-size:29px;font-weight:400;margin:25px 0 10px}.materials-grid p{color:#bec3c4;max-width:40ch;margin:0}.forme-neighbourhood{background:#f2f3f1;color:#121417;padding:110px 7%;display:grid;grid-template-columns:1fr 1.3fr;gap:9%;align-items:center}.forme-neighbourhood p{max-width:36ch;margin:30px 0}.forme-neighbourhood ul{padding:0;list-style:none}.forme-neighbourhood li{border-top:1px solid #12141735;padding:16px 0;display:flex;justify-content:space-between;gap:20px}.forme-neighbourhood svg{width:100%;height:auto}.forme-viewing{padding:130px 7%;display:grid;grid-template-columns:1fr 1fr;gap:10%}.forme-viewing>div>p{color:#bec3c4;margin-top:30px;max-width:38ch}.forme-viewing form{display:flex;flex-direction:column;gap:22px}.forme-viewing label{display:flex;flex-direction:column;gap:10px;font-size:14px}.forme-viewing input,.forme-viewing select{border:1px solid #f2f3f155;border-radius:0;color:#f2f3f1;background:#121417;min-height:50px;padding:12px;font:17px 'Host Grotesk Variable',sans-serif;color-scheme:dark}.forme-field-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}.forme-viewing button{border:0;cursor:pointer}.forme-confirmation h3{font-size:32px;font-weight:400}.forme-confirmation button{background:#f2f3f1;color:#121417;font:17px 'Host Grotesk Variable',sans-serif;padding:16px}.forme-footer{border-top:1px solid #f2f3f135;margin:0 4%;padding:45px 0;display:flex;justify-content:space-between;gap:35px;align-items:center}.forme-footer p{font-size:14px;color:#bec3c4}.forme-footer>a:last-child{border-bottom:1px solid #ff5b1f;font-size:14px}@media(max-width:1000px){.residence-configurator{grid-template-columns:1fr 1.5fr;gap:35px}.residence-detail{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:15px}.residence-detail h3{grid-row:2}.residence-detail dl{grid-row:1/3;grid-column:2}.residence-detail .forme-action{align-self:start}.forme-viewing{gap:6%}}@media(max-width:767px){.forme-section-heading{display:block;margin-bottom:40px}.forme-section-heading p{margin-top:25px}.forme-residences,.forme-materials,.forme-neighbourhood,.forme-viewing{padding:75px 6%}.residence-configurator{display:block}.elevation{max-width:380px;margin:0 auto 40px}.residence-detail{display:block;margin-top:40px}.materials-grid{column-gap:20px;row-gap:35px;grid-template-columns:1fr 1fr}.materials-grid figure:nth-child(even){margin-top:65px}.materials-grid h3{font-size:24px}.materials-grid p{font-size:15px}.forme-neighbourhood,.forme-viewing{display:block}.forme-neighbourhood svg{margin-top:35px}.forme-viewing form{margin-top:40px}.forme-field-pair{grid-template-columns:1fr}.forme-footer{margin:0 6%;flex-wrap:wrap;gap:18px}.forme-footer p{flex-basis:100%}.residence-plan{min-width:0}.forme .plan-note{font-size:13px}}
-.forme .materials-grid p{font-size:17px}
+.forme-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+  margin-bottom: 70px;
+}
+.forme-section-heading h2,
+.forme-neighbourhood h2,
+.forme-viewing h2 {
+  font-size: clamp(38px, 4.8vw, 68px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 0;
+}
+.forme-section-heading p {
+  max-width: 36ch;
+  margin: 0;
+}
+.forme-residences {
+  padding: 120px 4%;
+  background: #f2f3f1;
+  color: #121417;
+  scroll-margin-top: 24px;
+}
+.residence-configurator {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr 1fr;
+  gap: 4%;
+  align-items: center;
+}
+.elevation .forme-mono {
+  margin-bottom: 30px;
+}
+.elevation-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.elevation-stack button {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #12141755;
+  padding: 12px;
+  background: transparent;
+  color: inherit;
+  font:
+    13px "Geist Mono Variable",
+    monospace;
+  cursor: pointer;
+}
+.elevation-stack button[aria-pressed="true"] {
+  background: #121417;
+  color: #f2f3f1;
+  border-color: #ff5b1f;
+}
+.elevation p {
+  font-size: 13px;
+  margin-top: 30px;
+}
+.residence-tabs {
+  display: flex;
+  gap: 8px;
+}
+.residence-tabs button {
+  min-width: 52px;
+  min-height: 44px;
+  border: 1px solid #12141755;
+  background: transparent;
+  color: inherit;
+  font:
+    14px "Geist Mono Variable",
+    monospace;
+  cursor: pointer;
+}
+.residence-tabs button[aria-pressed="true"] {
+  background: #121417;
+  color: #f2f3f1;
+}
+.residence-plan {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
+.plan-note {
+  color: #54595c;
+}
+.residence-detail h3 {
+  font-size: 32px;
+  font-weight: 400;
+  margin: 15px 0 28px;
+  line-height: 1.15;
+}
+.residence-detail dl > div {
+  border-bottom: 1px solid #12141725;
+  padding: 13px 0;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+.residence-detail dt {
+  font-size: 14px;
+}
+.residence-detail dd {
+  font:
+    14px "Geist Mono Variable",
+    monospace;
+  margin: 0;
+  text-align: right;
+}
+.residence-detail .forme-action {
+  font-size: 14px;
+  padding: 15px;
+}
+.forme-materials {
+  padding: 130px 7%;
+}
+.materials-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  column-gap: 10%;
+  row-gap: 50px;
+}
+.materials-grid figure {
+  margin: 0;
+}
+.materials-grid figure:nth-child(even) {
+  margin-top: 130px;
+}
+.materials-grid img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+.materials-grid h3 {
+  font-size: 29px;
+  font-weight: 400;
+  margin: 25px 0 10px;
+}
+.materials-grid p {
+  color: #bec3c4;
+  max-width: 40ch;
+  margin: 0;
+}
+.forme-neighbourhood {
+  background: #f2f3f1;
+  color: #121417;
+  padding: 110px 7%;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 9%;
+  align-items: center;
+}
+.forme-neighbourhood p {
+  max-width: 36ch;
+  margin: 30px 0;
+}
+.forme-neighbourhood ul {
+  padding: 0;
+  list-style: none;
+}
+.forme-neighbourhood li {
+  border-top: 1px solid #12141735;
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.forme-neighbourhood svg {
+  width: 100%;
+  height: auto;
+}
+.forme-viewing {
+  padding: 130px 7%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10%;
+}
+.forme-viewing > div > p {
+  color: #bec3c4;
+  margin-top: 30px;
+  max-width: 38ch;
+}
+.forme-viewing form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.forme-viewing label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+.forme-viewing input,
+.forme-viewing select {
+  border: 1px solid #f2f3f155;
+  border-radius: 0;
+  color: #f2f3f1;
+  background: #121417;
+  min-height: 50px;
+  padding: 12px;
+  font:
+    17px "Host Grotesk Variable",
+    sans-serif;
+  color-scheme: dark;
+}
+.forme-field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.forme-viewing button {
+  border: 0;
+  cursor: pointer;
+}
+.forme-confirmation h3 {
+  font-size: 32px;
+  font-weight: 400;
+}
+.forme-confirmation button {
+  background: #f2f3f1;
+  color: #121417;
+  font:
+    17px "Host Grotesk Variable",
+    sans-serif;
+  padding: 16px;
+}
+.forme-footer {
+  border-top: 1px solid #f2f3f135;
+  margin: 0 4%;
+  padding: 45px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 35px;
+  align-items: center;
+}
+.forme-footer p {
+  font-size: 14px;
+  color: #bec3c4;
+}
+.forme-footer > a:last-child {
+  border-bottom: 1px solid #ff5b1f;
+  font-size: 14px;
+}
+@media (max-width: 1000px) {
+  .residence-configurator {
+    grid-template-columns: 1fr 1.5fr;
+    gap: 35px;
+  }
+  .residence-detail {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  .residence-detail h3 {
+    grid-row: 2;
+  }
+  .residence-detail dl {
+    grid-row: 1/3;
+    grid-column: 2;
+  }
+  .residence-detail .forme-action {
+    align-self: start;
+  }
+  .forme-viewing {
+    gap: 6%;
+  }
+}
+@media (max-width: 767px) {
+  .forme-section-heading {
+    display: block;
+    margin-bottom: 40px;
+  }
+  .forme-section-heading p {
+    margin-top: 25px;
+  }
+  .forme-residences,
+  .forme-materials,
+  .forme-neighbourhood,
+  .forme-viewing {
+    padding: 75px 6%;
+  }
+  .residence-configurator {
+    display: block;
+  }
+  .elevation {
+    max-width: 380px;
+    margin: 0 auto 40px;
+  }
+  .residence-detail {
+    display: block;
+    margin-top: 40px;
+  }
+  .materials-grid {
+    column-gap: 20px;
+    row-gap: 35px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .materials-grid figure:nth-child(even) {
+    margin-top: 65px;
+  }
+  .materials-grid h3 {
+    font-size: 24px;
+  }
+  .materials-grid p {
+    font-size: 15px;
+  }
+  .forme-neighbourhood,
+  .forme-viewing {
+    display: block;
+  }
+  .forme-neighbourhood svg {
+    margin-top: 35px;
+  }
+  .forme-viewing form {
+    margin-top: 40px;
+  }
+  .forme-field-pair {
+    grid-template-columns: 1fr;
+  }
+  .forme-footer {
+    margin: 0 6%;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .forme-footer p {
+    flex-basis: 100%;
+  }
+  .residence-plan {
+    min-width: 0;
+  }
+  .forme .plan-note {
+    font-size: 13px;
+  }
+}
+.forme .materials-grid p {
+  font-size: 17px;
+}

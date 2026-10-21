@@ -1,0 +1,27 @@
+html {
+  scroll-behavior: auto;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+.concept-skip {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  background: #f2f3f1;
+  color: #121417 !important;
+  padding: 15px;
+  transform: translateY(-200%);
+}
+.concept-skip:focus {
+  transform: none;
+}

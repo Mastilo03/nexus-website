@@ -8,12 +8,12 @@ Shared prompt, with each subject substituted verbatim:
 
 > Square architectural material close-up photograph of SUBJECT. For fictional residential concept FORME. Fill frame with the actual material at tactile macro scale, soft raking daylight, restrained sophisticated editorial photography, physically real detail, no text, no graphic overlays, no props, no watermark.
 
-| File | SUBJECT |
-| --- | --- |
-| `public/forme/concrete.webp` | board-formed architectural concrete, subtle horizontal timber grain and tiny pores, cool grey |
-| `public/forme/oak.webp` | quarter-sawn oak timber soffit, precise linear grain, warm natural restrained tan |
-| `public/forme/glass.webp` | a thick low-iron architectural glass edge with soft blue-grey reflections and subtle refraction |
-| `public/forme/stone.webp` | honed pale limestone slab, quiet mineral variation, a finely cut edge |
+| File                         | SUBJECT                                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- |
+| `public/forme/concrete.webp` | board-formed architectural concrete, subtle horizontal timber grain and tiny pores, cool grey   |
+| `public/forme/oak.webp`      | quarter-sawn oak timber soffit, precise linear grain, warm natural restrained tan               |
+| `public/forme/glass.webp`    | a thick low-iron architectural glass edge with soft blue-grey reflections and subtle refraction |
+| `public/forme/stone.webp`    | honed pale limestone slab, quiet mineral variation, a finely cut edge                           |
 
 Source outputs were 1254 × 1254 PNG. Shipping copies are 1000 × 1000 WebP. `public/forme/axonometric.png` is an original procedural render of `src/concepts/forme/scene.tsx`, exported directly from the WebGL canvas with no page text, using `scripts/check-forme.cjs`.
 

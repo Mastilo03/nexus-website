@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T15:05:36.482Z",
+  "title": "Design System: FORME and APEX",
+  "extensions": {
+    "colorMeta": {
+      "forme-orange": {
+        "role": "primary",
+        "displayName": "forme orange",
+        "tonalRamp": [
+          "oklch(15.00% 0.2100 37.96)",
+          "oklch(26.43% 0.2100 37.96)",
+          "oklch(37.86% 0.2100 37.96)",
+          "oklch(49.29% 0.2100 37.96)",
+          "oklch(60.71% 0.2100 37.96)",
+          "oklch(72.14% 0.2100 37.96)",
+          "oklch(83.57% 0.2100 37.96)",
+          "oklch(95.00% 0.2100 37.96)"
+        ]
+      },
+      "forme-ground": {
+        "role": "neutral",
+        "displayName": "forme ground",
+        "tonalRamp": [
+          "oklch(15.00% 0.0069 258.37)",
+          "oklch(26.43% 0.0069 258.37)",
+          "oklch(37.86% 0.0069 258.37)",
+          "oklch(49.29% 0.0069 258.37)",
+          "oklch(60.71% 0.0069 258.37)",
+          "oklch(72.14% 0.0069 258.37)",
+          "oklch(83.57% 0.0069 258.37)",
+          "oklch(95.00% 0.0069 258.37)"
+        ]
+      },
+      "forme-paper": {
+        "role": "neutral",
+        "displayName": "forme paper",
+        "tonalRamp": [
+          "oklch(15.00% 0.0028 128.49)",
+          "oklch(26.43% 0.0028 128.49)",
+          "oklch(37.86% 0.0028 128.49)",
+          "oklch(49.29% 0.0028 128.49)",
+          "oklch(60.71% 0.0028 128.49)",
+          "oklch(72.14% 0.0028 128.49)",
+          "oklch(83.57% 0.0028 128.49)",
+          "oklch(95.00% 0.0028 128.49)"
+        ]
+      },
+      "forme-concrete": {
+        "role": "secondary",
+        "displayName": "forme concrete",
+        "tonalRamp": [
+          "oklch(15.00% 0.0038 219.55)",
+          "oklch(26.43% 0.0038 219.55)",
+          "oklch(37.86% 0.0038 219.55)",
+          "oklch(49.29% 0.0038 219.55)",
+          "oklch(60.71% 0.0038 219.55)",
+          "oklch(72.14% 0.0038 219.55)",
+          "oklch(83.57% 0.0038 219.55)",
+          "oklch(95.00% 0.0038 219.55)"
+        ]
+      },
+      "forme-glass": {
+        "role": "secondary",
+        "displayName": "forme glass",
+        "tonalRamp": [
+          "oklch(15.00% 0.0323 231.46)",
+          "oklch(26.43% 0.0323 231.46)",
+          "oklch(37.86% 0.0323 231.46)",
+          "oklch(49.29% 0.0323 231.46)",
+          "oklch(60.71% 0.0323 231.46)",
+          "oklch(72.14% 0.0323 231.46)",
+          "oklch(83.57% 0.0323 231.46)",
+          "oklch(95.00% 0.0323 231.46)"
+        ]
+      },
+      "forme-body-muted": {
+        "role": "neutral",
+        "displayName": "forme body muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0057 211.04)",
+          "oklch(26.43% 0.0057 211.04)",
+          "oklch(37.86% 0.0057 211.04)",
+          "oklch(49.29% 0.0057 211.04)",
+          "oklch(60.71% 0.0057 211.04)",
+          "oklch(72.14% 0.0057 211.04)",
+          "oklch(83.57% 0.0057 211.04)",
+          "oklch(95.00% 0.0057 211.04)"
+        ]
+      },
+      "forme-sheet-muted": {
+        "role": "neutral",
+        "displayName": "forme sheet muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0068 208.78)",
+          "oklch(26.43% 0.0068 208.78)",
+          "oklch(37.86% 0.0068 208.78)",
+          "oklch(49.29% 0.0068 208.78)",
+          "oklch(60.71% 0.0068 208.78)",
+          "oklch(72.14% 0.0068 208.78)",
+          "oklch(83.57% 0.0068 208.78)",
+          "oklch(95.00% 0.0068 208.78)"
+        ]
+      },
+      "forme-plan-note": {
+        "role": "neutral",
+        "displayName": "forme plan note",
+        "tonalRamp": [
+          "oklch(15.00% 0.0080 233.80)",
+          "oklch(26.43% 0.0080 233.80)",
+          "oklch(37.86% 0.0080 233.80)",
+          "oklch(49.29% 0.0080 233.80)",
+          "oklch(60.71% 0.0080 233.80)",
+          "oklch(72.14% 0.0080 233.80)",
+          "oklch(83.57% 0.0080 233.80)",
+          "oklch(95.00% 0.0080 233.80)"
+        ]
+      },
+      "forme-dimension-on-paper": {
+        "role": "secondary",
+        "displayName": "forme dimension on paper",
+        "tonalRamp": [
+          "oklch(15.00% 0.1727 36.90)",
+          "oklch(26.43% 0.1727 36.90)",
+          "oklch(37.86% 0.1727 36.90)",
+          "oklch(49.29% 0.1727 36.90)",
+          "oklch(60.71% 0.1727 36.90)",
+          "oklch(72.14% 0.1727 36.90)",
+          "oklch(83.57% 0.1727 36.90)",
+          "oklch(95.00% 0.1727 36.90)"
+        ]
+      },
+      "apex-red": {
+        "role": "primary",
+        "displayName": "apex red",
+        "tonalRamp": [
+          "oklch(15.00% 0.2209 21.51)",
+          "oklch(26.43% 0.2209 21.51)",
+          "oklch(37.86% 0.2209 21.51)",
+          "oklch(49.29% 0.2209 21.51)",
+          "oklch(60.71% 0.2209 21.51)",
+          "oklch(72.14% 0.2209 21.51)",
+          "oklch(83.57% 0.2209 21.51)",
+          "oklch(95.00% 0.2209 21.51)"
+        ]
+      },
+      "apex-black": {
+        "role": "neutral",
+        "displayName": "apex black",
+        "tonalRamp": [
+          "oklch(15.00% 0.0109 303.36)",
+          "oklch(26.43% 0.0109 303.36)",
+          "oklch(37.86% 0.0109 303.36)",
+          "oklch(49.29% 0.0109 303.36)",
+          "oklch(60.71% 0.0109 303.36)",
+          "oklch(72.14% 0.0109 303.36)",
+          "oklch(83.57% 0.0109 303.36)",
+          "oklch(95.00% 0.0109 303.36)"
+        ]
+      },
+      "apex-surface": {
+        "role": "neutral",
+        "displayName": "apex surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0138 298.35)",
+          "oklch(26.43% 0.0138 298.35)",
+          "oklch(37.86% 0.0138 298.35)",
+          "oklch(49.29% 0.0138 298.35)",
+          "oklch(60.71% 0.0138 298.35)",
+          "oklch(72.14% 0.0138 298.35)",
+          "oklch(83.57% 0.0138 298.35)",
+          "oklch(95.00% 0.0138 298.35)"
+        ]
+      },
+      "apex-pearl": {
+        "role": "neutral",
+        "displayName": "apex pearl",
+        "tonalRamp": [
+          "oklch(15.00% 0.0091 314.78)",
+          "oklch(26.43% 0.0091 314.78)",
+          "oklch(37.86% 0.0091 314.78)",
+          "oklch(49.29% 0.0091 314.78)",
+          "oklch(60.71% 0.0091 314.78)",
+          "oklch(72.14% 0.0091 314.78)",
+          "oklch(83.57% 0.0091 314.78)",
+          "oklch(95.00% 0.0091 314.78)"
+        ]
+      },
+      "apex-muted": {
+        "role": "neutral",
+        "displayName": "apex muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0217 313.80)",
+          "oklch(26.43% 0.0217 313.80)",
+          "oklch(37.86% 0.0217 313.80)",
+          "oklch(49.29% 0.0217 313.80)",
+          "oklch(60.71% 0.0217 313.80)",
+          "oklch(72.14% 0.0217 313.80)",
+          "oklch(83.57% 0.0217 313.80)",
+          "oklch(95.00% 0.0217 313.80)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "forme-display": {
+        "displayName": "FORME display",
+        "purpose": "Architectural study hero headings."
+      },
+      "apex-display": {
+        "displayName": "APEX display",
+        "purpose": "Automotive studio hero headings."
+      },
+      "mono-label": {
+        "displayName": "Technical annotation",
+        "purpose": "Measured facts, scene notes and numerical labels."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "action-tracking",
+        "value": "800ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Letter-spacing hover transition only without reduced motion."
+      },
+      {
+        "name": "forme-scroll-scrub",
+        "value": "0.65",
+        "purpose": "GSAP architectural scroll study scrub setting."
+      },
+      {
+        "name": "apex-scroll-scrub",
+        "value": "0.4",
+        "purpose": "GSAP studio frame sequence scrub setting."
+      },
+      {
+        "name": "apex-process-scrub",
+        "value": "0.6",
+        "purpose": "GSAP horizontal process track scrub setting."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "767px"
+      },
+      {
+        "name": "apex-compact-max",
+        "value": "899px"
+      },
+      {
+        "name": "forme-explorer-compact-max",
+        "value": "1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "FORME action",
+      "kind": "button",
+      "refersTo": "forme-action",
+      "description": "Primary concept action, including local form submission.",
+      "html": "<button class=\"ds-forme\" type=\"button\">Explore the residences</button>",
+      "css": ".ds-forme{display:inline-flex;align-items:center;gap:35px;padding:16px 22px;background:#ff5b1f;color:#121417;border:0;font:600 16px \"Host Grotesk Variable\",sans-serif;cursor:pointer}.ds-forme:hover{letter-spacing:.02em}.ds-forme:focus-visible{outline:2px solid #ff5b1f;outline-offset:6px}@media(prefers-reduced-motion:no-preference){.ds-forme{transition:letter-spacing 800ms cubic-bezier(.16,1,.3,1)}}"
+    },
+    {
+      "name": "FORME reset",
+      "kind": "button",
+      "refersTo": "forme-reset",
+      "description": "Light neutral action in the local confirmation state.",
+      "html": "<button class=\"ds-forme\" type=\"button\">Start again</button>",
+      "css": ".ds-forme{background:#f2f3f1;color:#121417;border:0;padding:16px;font:17px \"Host Grotesk Variable\",sans-serif;cursor:pointer}.ds-forme:focus-visible{outline:2px solid #ff5b1f;outline-offset:6px}"
+    },
+    {
+      "name": "FORME field",
+      "kind": "input",
+      "refersTo": "forme-field",
+      "description": "Labelled dark input used in the local demonstration form.",
+      "html": "<label class=\"ds-label\">Name<input class=\"ds-forme\" autocomplete=\"name\" /></label>",
+      "css": ".ds-label{display:flex;flex-direction:column;gap:10px;font:14px \"Host Grotesk Variable\",sans-serif;background:#121417;color:#f2f3f1;padding:12px}.ds-forme{font:17px \"Host Grotesk Variable\",sans-serif;border:1px solid #f2f3f155;border-radius:0;padding:12px;min-height:50px;min-width:0;background:#121417;color:#f2f3f1;color-scheme:dark}.ds-forme:focus-visible{outline:2px solid #ff5b1f;outline-offset:6px}"
+    },
+    {
+      "name": "FORME navigation",
+      "kind": "nav",
+      "description": "Wordmark and ruled navigation action; the middle descriptor hides on mobile.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-brand\" href=\"#top\">FORME</a><span>Eighteen residences. One considered whole.</span><a class=\"ds-link\" href=\"#explore\">Explore the residences</a></nav>",
+      "css": ".ds-nav{height:100px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 4%;background:#121417;color:#f2f3f1;border-bottom:1px solid #f2f3f126;font:14px \"Host Grotesk Variable\",sans-serif}.ds-nav a{color:inherit;text-decoration:none}.ds-brand{font:600 38px \"Host Grotesk Variable\",sans-serif;letter-spacing:-.04em}.ds-link{border-bottom:1px solid #ff5b1f;padding-bottom:6px}.ds-nav a:focus-visible{outline:2px solid #ff5b1f;outline-offset:6px}@media(max-width:767px){.ds-nav{height:84px;padding:0 6%}.ds-nav>span{display:none}.ds-brand{font-size:32px}.ds-link{font-size:13px}}"
+    },
+    {
+      "name": "APEX action",
+      "kind": "button",
+      "refersTo": "apex-action",
+      "description": "Primary concept action, including local form submission.",
+      "html": "<button class=\"ds-apex\" type=\"button\">Book a consultation</button>",
+      "css": ".ds-apex{display:inline-flex;align-items:center;gap:50px;padding:17px 24px;background:#e5263f;color:#ece8ee;border:0;font:700 19px \"Inter Tight Variable\",sans-serif;cursor:pointer}.ds-apex:hover{letter-spacing:.025em}.ds-apex:focus-visible{outline:2px solid #ece8ee;outline-offset:6px}@media(prefers-reduced-motion:no-preference){.ds-apex{transition:letter-spacing 800ms cubic-bezier(.16,1,.3,1)}}"
+    },
+    {
+      "name": "APEX reset",
+      "kind": "button",
+      "refersTo": "apex-reset",
+      "description": "Light neutral action in the local confirmation state.",
+      "html": "<button class=\"ds-apex\" type=\"button\">Start again</button>",
+      "css": ".ds-apex{background:#ece8ee;color:#0e0c11;border:0;padding:15px 20px;font:600 17px \"Inter Tight Variable\",sans-serif;cursor:pointer}.ds-apex:focus-visible{outline:2px solid #ece8ee;outline-offset:6px}"
+    },
+    {
+      "name": "APEX field",
+      "kind": "input",
+      "refersTo": "apex-field",
+      "description": "Labelled dark input used in the local demonstration form.",
+      "html": "<label class=\"ds-label\">Name<input class=\"ds-apex\" autocomplete=\"name\" /></label>",
+      "css": ".ds-label{display:flex;flex-direction:column;gap:10px;font:14px \"Inter Tight Variable\",sans-serif;background:#1c1a21;color:#ece8ee;padding:12px}.ds-apex{font:17px \"Inter Tight Variable\",sans-serif;border:1px solid #ece8ee55;border-radius:0;padding:12px;min-height:50px;min-width:0;background:#1c1a21;color:#ece8ee;color-scheme:dark}.ds-apex:focus-visible{outline:2px solid #ece8ee;outline-offset:6px}"
+    },
+    {
+      "name": "APEX navigation",
+      "kind": "nav",
+      "description": "Wordmark and ruled navigation action; the middle descriptor hides on mobile.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-brand\" href=\"#top\">APEX</a><span>Correction. Coating. Protection.</span><a class=\"ds-link\" href=\"#explore\">Book a consultation</a></nav>",
+      "css": ".ds-nav{height:100px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 4%;background:#0e0c11;color:#ece8ee;border-bottom:1px solid #ece8ee26;font:14px \"Inter Tight Variable\",sans-serif}.ds-nav a{color:inherit;text-decoration:none}.ds-brand{font:28px Michroma,sans-serif;letter-spacing:.04em}.ds-link{border-bottom:1px solid #e5263f;padding-bottom:6px}.ds-nav a:focus-visible{outline:2px solid #ece8ee;outline-offset:6px}@media(max-width:767px){.ds-nav{height:84px;padding:0 6%}.ds-nav>span{display:none}.ds-brand{font-size:24px}.ds-link{font-size:13px}}"
+    },
+    {
+      "name": "FORME residence choice",
+      "kind": "chip",
+      "refersTo": "forme-residence-choice",
+      "description": "Pressed state identifies the residence displayed in the explorer.",
+      "html": "<div class=\"ds-choices\"><button aria-pressed=\"true\">01</button><button aria-pressed=\"false\">02</button></div>",
+      "css": ".ds-choices{display:flex;gap:8px;background:#f2f3f1;padding:12px}.ds-choices button{min-width:52px;min-height:44px;border:1px solid #12141755;background:transparent;color:#121417;font:14px \"Geist Mono Variable\",monospace;cursor:pointer}.ds-choices button[aria-pressed=\"true\"]{background:#121417;color:#f2f3f1}.ds-choices button:focus-visible{outline:2px solid #ff5b1f;outline-offset:6px}"
+    },
+    {
+      "name": "APEX service row",
+      "kind": "custom",
+      "description": "Open, ruled comparison row with supporting prose and monospaced facts.",
+      "html": "<article class=\"ds-service\"><div><h3>Paint correction</h3><p>Restore clarity to the finish.</p></div><div><p>Surface assessment and correction.</p><a href=\"#booking\">Discuss this service</a></div><dl><dt>Typical duration</dt><dd>1–3 days</dd></dl></article>",
+      "css": ".ds-service{display:grid;grid-template-columns:1.2fr 1.3fr 1fr;gap:6%;padding:60px 0;background:#0e0c11;color:#ece8ee;border-top:1px solid #ece8ee35;font:17px/1.5 \"Inter Tight Variable\",sans-serif}.ds-service h3{font-size:30px;font-weight:450;line-height:1.2;margin:0 0 18px}.ds-service p{margin:0 0 22px}.ds-service a{color:inherit;text-decoration:none;border-bottom:1px solid #e5263f;padding-bottom:6px;font-size:14px}.ds-service a:focus-visible{outline:2px solid #ece8ee;outline-offset:6px}.ds-service dl{margin:0}.ds-service dt{font-size:13px;color:#c6bdcb;margin-bottom:7px}.ds-service dd{margin:0;font:14px/1.5 \"Geist Mono Variable\",monospace}@media(max-width:767px){.ds-service{display:block;padding:40px 0}.ds-service dl{margin-top:30px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Architectural drawing sheet / Plum-black automotive studio",
+    "overview": "FORME uses a graphite drawing sheet, pale architectural paper, open geometric typography and measured orange marks. Its density alternates between a large architectural study and practical residence information. Material imagery, plans and fine rules give the interface its character.\n\nAPEX uses a plum-black studio, wide technical display lettering and restrained red actions. The car and its finish carry the depth; service information uses open rows and fine separators. Both worlds are fictional NEXUS concepts, with a plain concept credit and local demonstration forms.\n\nThis document records only the shipped FORME and APEX surfaces in `src/concepts/forme` and `src/concepts/apex`, grounded in their stylesheets, components and `docs/concepts.md`. The existing NEXUS system outside those surfaces is untouched and is not governed by these tokens.",
+    "keyCharacteristics": [
+      "Two independent, route-scoped palettes and type systems.",
+      "Square controls, fine separators and generous section spacing.",
+      "Object-led scenes with readable static alternatives.",
+      "Operable explorers and local form confirmations."
+    ],
+    "rules": [
+      {
+        "name": "The Scoped Palette Rule",
+        "body": "Keep each concept's palette inside its own route; these tokens do not replace NEXUS identity.",
+        "section": "colors"
+      },
+      {
+        "name": "The Data Voice Rule",
+        "body": "Use the mono face for measured facts and technical annotations; keep reading prose in the concept's body face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Object Depth Rule",
+        "body": "Keep depth in architectural material and automotive finish; UI structure stays flat and ruled.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the separate FORME and APEX visual worlds.",
+      "Do keep body copy at 17px and compact labels at or above 13px.",
+      "Do retain visible keyboard focus, explicit labels and static reduced-motion content.",
+      "Do keep concept and local-demo status clear.",
+      "Do use geometric marks and lighting to explain the depicted object."
+    ],
+    "donts": [
+      "Don't apply these scoped tokens to existing NEXUS surfaces.",
+      "Don't turn scene lighting or water-bead shapes into generic control styling.",
+      "Don't replace stacked fallback content with an inaccessible frozen animation.",
+      "Don't present the interim APEX still sequence as the final orbit asset."
+    ]
+  }
+}

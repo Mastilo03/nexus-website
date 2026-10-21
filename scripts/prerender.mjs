@@ -8,16 +8,49 @@ const ssr = await import(
 const { render, routeMeta, notFoundMeta, documentTitle } = ssr;
 const origin = (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
 const base = fs.readFileSync("dist/index.html", "utf8");
+const manifest = JSON.parse(
+  fs.readFileSync("dist/.vite/manifest.json", "utf8"),
+);
+function stylesFor(entry, seen = new Set()) {
+  if (seen.has(entry)) return [];
+  seen.add(entry);
+  const chunk = manifest[entry];
+  return chunk
+    ? [
+        ...(chunk.css || []),
+        ...(chunk.imports || []).flatMap((key) => stylesFor(key, seen)),
+      ]
+    : [];
+}
 const esc = (s) =>
   s.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
 
 function page(route, body, meta, extraHead = "") {
+  const entry =
+    route === "/work/forme"
+      ? "src/concepts/forme/Forme.tsx"
+      : route === "/work/apex"
+        ? "src/concepts/apex/Apex.tsx"
+        : Object.keys(manifest).find(
+            (key) => manifest[key].name === "SiteApp",
+          ) || "src/SiteApp.tsx";
+  extraHead += [...new Set(stylesFor(entry))]
+    .filter((file) => !base.includes(file))
+    .map((file) => `<link rel="stylesheet" href="/${file}"/>`)
+    .join("");
+  // Resource hints emitted ahead of React's tree belong in the document head.
+  // Keeping them inside #root changes the initial hydration boundary.
+  extraHead += (body.match(/<link rel="preload"[^>]*\/>/g) || []).join("");
+  body = body.replace(/<link rel="preload"[^>]*\/>/g, "");
   const url = origin + route;
   const social = origin
     ? `<link rel="canonical" href="${url}"/><meta property="og:url" content="${url}"/><meta property="og:image" content="${origin}/social-card.png"/>`
     : "";
   return base
-    .replace(/<title>.*?<\/title>/, `<title>${esc(documentTitle(route))}</title>`)
+    .replace(
+      /<title>.*?<\/title>/,
+      `<title>${esc(documentTitle(route))}</title>`,
+    )
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
       `<meta name="description" content="${esc(meta.description)}"/>`,
@@ -36,6 +69,8 @@ for (const route of routes) {
     route === "/" ? "dist/index.html" : path.join("dist", route, "index.html");
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, html);
+  // Clean URLs resolve to .html on Vercel and Vite's preview server.
+  if (route !== "/") fs.writeFileSync(path.join("dist", `${route}.html`), html);
 }
 fs.writeFileSync(
   "dist/404.html",

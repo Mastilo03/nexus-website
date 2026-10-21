@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
+import { ThreeCanvas as Canvas } from './ThreeCanvas';
 import { Float, Line, RoundedBox } from "@react-three/drei";
 import { Group, Mesh } from "three";
 

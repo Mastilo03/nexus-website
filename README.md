@@ -1,5 +1,7 @@
 # NEXUS website
 
+FORME and APEX now have dedicated interactive concept demos. See [running, deployment and data editing](docs/CONCEPTS-README.md) and [APEX video generation and frame replacement](docs/APEX-VIDEO.md).
+
 Marketing site for NEXUS: websites and automation for service businesses. React 19, TypeScript, Vite and React Router, pre-rendered to static HTML.
 
 ## Run locally

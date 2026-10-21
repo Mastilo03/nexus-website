@@ -1,15 +1,316 @@
-import {useEffect,useRef,useState,type CSSProperties} from 'react';
-import gsap from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {NEXUS_ORIGIN} from '../config';
-const services=[{name:'Paint correction',line:'Reveal what is underneath.',description:'Measured machine polishing refines the clear coat to reduce swirls and restore a clean reflection.',duration:'1–3 days',life:'Finish maintained with careful washing',price:'€650',includes:'Wash and decontamination / Paint assessment / Test section / Staged correction'}, {name:'Ceramic coating',line:'A surface that lets go.',description:'A bonded protective layer helps water release and makes routine cleaning more straightforward.',duration:'2–3 days including cure',life:'Sample care interval: 2–4 years',price:'€950',includes:'Surface preparation / Panel wipe / Coating application / Controlled cure'}, {name:'Paint protection film',line:'Protection you can look through.',description:'A clear, sacrificial film covers exposed painted panels to help absorb everyday road wear.',duration:'3–5 days',life:'Sample replacement interval: 5–7 years',price:'€1,800',includes:'Coverage consultation / Panel preparation / Film installation / Edge inspection'}];
-const steps=[['Inspect','Read the surface. Document its condition and agree the scope.'],['Prepare','Wash, decontaminate and mask. A clean starting point matters.'],['Refine','Test the approach, then work panel by panel under controlled light.'],['Protect','Apply the selected coating or film to the prepared finish.'],['Handover','Inspect together. Explain the finish and its aftercare.']];
-function Process(){const root=useRef<HTMLElement>(null),track=useRef<HTMLOListElement>(null);useEffect(()=>{gsap.registerPlugin(ScrollTrigger);const mm=gsap.matchMedia();mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)',()=>{const tween=gsap.to(track.current,{x:()=>-(track.current!.scrollWidth-root.current!.clientWidth+100),ease:'none',scrollTrigger:{trigger:root.current,pin:true,start:'top top',end:'+=1600',scrub:.6,invalidateOnRefresh:true}});return()=>{tween.scrollTrigger?.kill();tween.kill()}});return()=>mm.revert()},[]);return <section className="apex-process" ref={root}><h2>Precision has a process.</h2><ol ref={track}>{steps.map(([name,copy],i)=><li key={name}><span className="apex-mono">{String(i+1).padStart(2,'0')} / 05</span><h3>{name}</h3><p>{copy}</p></li>)}</ol></section>}
-function Inspector(){const [value,setValue]=useState(50);return <section className="apex-inspector"><div className="apex-section-head"><h2>Let the light<br/>tell you.</h2><p>Move the inspection light across the sample.<br/>Fine swirls scatter it. Corrected paint holds it.</p></div><div className="paint-inspector" style={{'--light':`${value}%`} as CSSProperties} onPointerMove={e=>{if(e.pointerType==='mouse'||e.buttons){const r=e.currentTarget.getBoundingClientRect();setValue(Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100)))}}} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);const r=e.currentTarget.getBoundingClientRect();setValue(Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100)))}}><img src="/apex/paint.webp" alt="Generated paint sample: fine swirl marks on the left and a corrected mirror finish on the right." width="1536" height="1024" loading="lazy"/><div className="inspection-shade"/><div className="inspection-light"/><div className="paint-labels"><span>Before correction</span><span>After correction</span></div></div><label className="inspection-control">Inspection light position<input type="range" min="0" max="100" value={value} onChange={e=>setValue(Number(e.target.value))} aria-valuetext={`${value}% from the left. ${value<50?'Inspecting swirl-marked paint.':'Inspecting corrected paint.'}`}/></label><p className="apex-mono">Use the arrow keys, drag, or move your pointer. Generated demonstration image.</p></section>}
-export default function ApexSections(){const[service,setService]=useState('Paint correction'),[complete,setComplete]=useState(false);const result=useRef<HTMLDivElement>(null);return <>
- <section className="apex-services" id="services"><h2>Three ways to<br/>care for the finish.</h2>{services.map((s,i)=><article key={s.name} className={`apex-service service-${i}`}><div className="service-title"><h3>{s.name}</h3><p>{s.line}</p></div><div className="service-description"><p>{s.description}</p><p className="service-includes">{s.includes}</p><a href="#booking" onClick={()=>setService(s.name)}>Explore this service ↗</a></div><dl><div><dt>Studio time</dt><dd>{s.duration}</dd></div><div><dt>Longevity</dt><dd>{s.life}</dd></div><div><dt>Sample price, from</dt><dd>{s.price}</dd></div></dl></article>)}<p className="apex-service-note">Illustrative packages for this fictional studio. Timings, care intervals and prices are samples; condition, use and maintenance affect the result.</p></section>
- <Process/><Inspector/>
- <section id="booking" className="apex-booking"><div><h2>Start with<br/>the surface.</h2><p>Choose what you would like to discuss.<br/>This consultation form is a local demo.</p></div>{complete?<div className="apex-confirmation" role="status" ref={result} tabIndex={-1}><h3>Your demo is complete.</h3><p>You explored {service.toLowerCase()}. Nothing was sent, no consultation was booked, and your contact details have not been saved.</p><button onClick={()=>setComplete(false)}>Try the demo again</button></div>:<form onSubmit={e=>{e.preventDefault();e.currentTarget.reset();setComplete(true);setTimeout(()=>result.current?.focus(),0)}}><label>Service<select value={service} onChange={e=>setService(e.target.value)}>{services.map(s=><option key={s.name}>{s.name}</option>)}</select></label><div className="apex-field-pair"><label>Vehicle size<select name="size" required defaultValue=""><option value="" disabled>Choose a size</option><option>Compact / coupé</option><option>Saloon / estate</option><option>SUV / large vehicle</option></select></label><label>Preferred date<input type="date" name="date" required/></label></div><label>Your name<input name="name" autoComplete="name" maxLength={100} required/></label><label>Email address<input name="email" autoComplete="email" type="email" maxLength={254} required/></label><button className="apex-action" type="submit">Complete the demo ↗</button><p className="apex-mono">Nothing is sent or booked.</p></form>}</section>
- <footer className="apex-footer"><a className="apex-logo" href="#apex-top">APEX</a><p>Every detail. Elevated.<br/>A fictional detailing concept by NEXUS.</p><a href={NEXUS_ORIGIN}>Built by NEXUS ↗</a></footer>
- </>}
-
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { NEXUS_ORIGIN } from "../config";
+const services = [
+  {
+    name: "Paint correction",
+    line: "Reveal what is underneath.",
+    description:
+      "Measured machine polishing refines the clear coat to reduce swirls and restore a clean reflection.",
+    duration: "1–3 days",
+    life: "Finish maintained with careful washing",
+    price: "€650",
+    includes:
+      "Wash and decontamination / Paint assessment / Test section / Staged correction",
+  },
+  {
+    name: "Ceramic coating",
+    line: "A surface that lets go.",
+    description:
+      "A bonded protective layer helps water release and makes routine cleaning more straightforward.",
+    duration: "2–3 days including cure",
+    life: "Sample care interval: 2–4 years",
+    price: "€950",
+    includes:
+      "Surface preparation / Panel wipe / Coating application / Controlled cure",
+  },
+  {
+    name: "Paint protection film",
+    line: "Protection you can look through.",
+    description:
+      "A clear, sacrificial film covers exposed painted panels to help absorb everyday road wear.",
+    duration: "3–5 days",
+    life: "Sample replacement interval: 5–7 years",
+    price: "€1,800",
+    includes:
+      "Coverage consultation / Panel preparation / Film installation / Edge inspection",
+  },
+];
+const steps = [
+  ["Inspect", "Read the surface. Document its condition and agree the scope."],
+  ["Prepare", "Wash, decontaminate and mask. A clean starting point matters."],
+  [
+    "Refine",
+    "Test the approach, then work panel by panel under controlled light.",
+  ],
+  ["Protect", "Apply the selected coating or film to the prepared finish."],
+  ["Handover", "Inspect together. Explain the finish and its aftercare."],
+];
+function Process() {
+  const root = useRef<HTMLElement>(null),
+    track = useRef<HTMLOListElement>(null);
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const mm = gsap.matchMedia();
+    mm.add(
+      "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        const tween = gsap.to(track.current, {
+          x: () =>
+            -(track.current!.scrollWidth - root.current!.clientWidth + 100),
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            pin: true,
+            start: "top top",
+            end: "+=1600",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        });
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      },
+    );
+    return () => mm.revert();
+  }, []);
+  return (
+    <section className="apex-process" ref={root}>
+      <h2>Precision has a process.</h2>
+      <ol ref={track}>
+        {steps.map(([name, copy], i) => (
+          <li key={name}>
+            <span className="apex-mono">
+              {String(i + 1).padStart(2, "0")} / 05
+            </span>
+            <h3>{name}</h3>
+            <p>{copy}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+function Inspector() {
+  const [value, setValue] = useState(50);
+  return (
+    <section className="apex-inspector">
+      <div className="apex-section-head">
+        <h2>
+          Let the light
+          <br />
+          tell you.
+        </h2>
+        <p>
+          Move the inspection light across the sample.
+          <br />
+          Fine swirls scatter it. Corrected paint holds it.
+        </p>
+      </div>
+      <div
+        className="paint-inspector"
+        style={{ "--light": `${value}%` } as CSSProperties}
+        onPointerMove={(e) => {
+          if (e.pointerType === "mouse" || e.buttons) {
+            const r = e.currentTarget.getBoundingClientRect();
+            setValue(
+              Math.max(
+                0,
+                Math.min(100, ((e.clientX - r.left) / r.width) * 100),
+              ),
+            );
+          }
+        }}
+        onPointerDown={(e) => {
+          e.currentTarget.setPointerCapture(e.pointerId);
+          const r = e.currentTarget.getBoundingClientRect();
+          setValue(
+            Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)),
+          );
+        }}
+      >
+        <img
+          src="/apex/paint.webp"
+          alt="Generated paint sample: fine swirl marks on the left and a corrected mirror finish on the right."
+          width="1536"
+          height="1024"
+          loading="lazy"
+        />
+        <div className="inspection-shade" />
+        <div className="inspection-light" />
+        <div className="paint-labels">
+          <span>Before correction</span>
+          <span>After correction</span>
+        </div>
+      </div>
+      <label className="inspection-control">
+        Inspection light position
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+          aria-valuetext={`${value}% from the left. ${value < 50 ? "Inspecting swirl-marked paint." : "Inspecting corrected paint."}`}
+        />
+      </label>
+      <p className="apex-mono">
+        Use the arrow keys, drag, or move your pointer. Generated demonstration
+        image.
+      </p>
+    </section>
+  );
+}
+export default function ApexSections() {
+  const [service, setService] = useState("Paint correction"),
+    [complete, setComplete] = useState(false);
+  const result = useRef<HTMLDivElement>(null);
+  return (
+    <>
+      <section className="apex-services" id="services">
+        <h2>
+          Three ways to
+          <br />
+          care for the finish.
+        </h2>
+        {services.map((s, i) => (
+          <article key={s.name} className={`apex-service service-${i}`}>
+            <div className="service-title">
+              <h3>{s.name}</h3>
+              <p>{s.line}</p>
+            </div>
+            <div className="service-description">
+              <p>{s.description}</p>
+              <p className="service-includes">{s.includes}</p>
+              <a href="#booking" onClick={() => setService(s.name)}>
+                Explore this service ↗
+              </a>
+            </div>
+            <dl>
+              <div>
+                <dt>Studio time</dt>
+                <dd>{s.duration}</dd>
+              </div>
+              <div>
+                <dt>Longevity</dt>
+                <dd>{s.life}</dd>
+              </div>
+              <div>
+                <dt>Sample price, from</dt>
+                <dd>{s.price}</dd>
+              </div>
+            </dl>
+          </article>
+        ))}
+        <p className="apex-service-note">
+          Illustrative packages for this fictional studio. Timings, care
+          intervals and prices are samples; condition, use and maintenance
+          affect the result.
+        </p>
+      </section>
+      <Process />
+      <Inspector />
+      <section id="booking" className="apex-booking">
+        <div>
+          <h2>
+            Start with
+            <br />
+            the surface.
+          </h2>
+          <p>
+            Choose what you would like to discuss.
+            <br />
+            This consultation form is a local demo.
+          </p>
+        </div>
+        {complete ? (
+          <div
+            className="apex-confirmation"
+            role="status"
+            ref={result}
+            tabIndex={-1}
+          >
+            <h3>Your demo is complete.</h3>
+            <p>
+              You explored {service.toLowerCase()}. Nothing was sent, no
+              consultation was booked, and your contact details have not been
+              saved.
+            </p>
+            <button onClick={() => setComplete(false)}>
+              Try the demo again
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.currentTarget.reset();
+              setComplete(true);
+              setTimeout(() => result.current?.focus(), 0);
+            }}
+          >
+            <label>
+              Service
+              <select
+                value={service}
+                onChange={(e) => setService(e.target.value)}
+              >
+                {services.map((s) => (
+                  <option key={s.name}>{s.name}</option>
+                ))}
+              </select>
+            </label>
+            <div className="apex-field-pair">
+              <label>
+                Vehicle size
+                <select name="size" required defaultValue="">
+                  <option value="" disabled>
+                    Choose a size
+                  </option>
+                  <option>Compact / coupé</option>
+                  <option>Saloon / estate</option>
+                  <option>SUV / large vehicle</option>
+                </select>
+              </label>
+              <label>
+                Preferred date
+                <input type="date" name="date" required />
+              </label>
+            </div>
+            <label>
+              Your name
+              <input name="name" autoComplete="name" maxLength={100} required />
+            </label>
+            <label>
+              Email address
+              <input
+                name="email"
+                autoComplete="email"
+                type="email"
+                maxLength={254}
+                required
+              />
+            </label>
+            <button className="apex-action" type="submit">
+              Complete the demo ↗
+            </button>
+            <p className="apex-mono">Nothing is sent or booked.</p>
+          </form>
+        )}
+      </section>
+      <footer className="apex-footer">
+        <a className="apex-logo" href="#apex-top">
+          APEX
+        </a>
+        <p>
+          Every detail. Elevated.
+          <br />A fictional detailing concept by NEXUS.
+        </p>
+        <a href={NEXUS_ORIGIN}>Built by NEXUS ↗</a>
+      </footer>
+    </>
+  );
+}

@@ -1,14 +1,20 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { App } from "./App";
+import "./entry.css";
+const pathname = location.pathname.replace(/\/$/, "") || "/";
+const Surface =
+  pathname === "/work/forme"
+    ? lazy(() => import("./concepts/forme/Forme"))
+    : pathname === "/work/apex"
+      ? lazy(() => import("./concepts/apex/Apex"))
+      : lazy(() => import("./SiteApp"));
 
 const root = document.getElementById("root")!;
 const app = (
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Suspense fallback={null}>
+      <Surface />
+    </Suspense>
   </React.StrictMode>
 );
 // Pages are pre-rendered at build time; hydrate them. The dev server serves
